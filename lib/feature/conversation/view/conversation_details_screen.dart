@@ -2,28 +2,29 @@ import 'package:demandium/feature/conversation/widgets/conversation_bubble_widge
 import 'package:demandium/feature/conversation/widgets/conversation_details_appbar.dart';
 import 'package:demandium/feature/conversation/widgets/conversation_details_shimmer.dart';
 import 'package:demandium/feature/conversation/widgets/conversation_send_message_widget.dart';
+import 'package:demandium/feature/conversation/widgets/empty_conversation_widget.dart';
 import 'package:get/get.dart';
 import 'package:demandium/utils/core_export.dart';
 
 
 
 class ConversationDetailsScreen extends StatefulWidget {
-  final String channelID;
-  final String name;
-  final String image;
-  final String phone;
+  final String? channelID;
+  final String? name;
+  final String? image;
+  final String? phone;
   final String bookingID;
   final String userType;
   final String formNotification;
 
   const ConversationDetailsScreen({super.key,
-    required this.name,
-    required this.image,
-    required this.channelID,
-    required this.phone,
+    this.name,
+    this.image,
+    this.channelID,
+     this.phone,
     this.bookingID = "",
     this.formNotification = "",
-    required this.userType});
+    this.userType =""});
   @override
   State<ConversationDetailsScreen> createState() => _ConversationDetailsScreenState();
 }
@@ -37,8 +38,8 @@ class _ConversationDetailsScreenState extends State<ConversationDetailsScreen> {
   void initState() {
     super.initState();
     Get.find<ConversationController>().cleanOldData();
-    Get.find<ConversationController>().setChannelId(widget.channelID);
-    Get.find<ConversationController>().getConversation(widget.channelID, 1,isInitial:true);
+    Get.find<ConversationController>().setChannelId(widget.channelID ?? "");
+    Get.find<ConversationController>().getConversation(widget.channelID ??"", 1,isInitial:true);
 
     if(Get.find<SplashController>().configModel.content?.phoneNumberVisibility==0 && widget.userType.contains("provider-admin")){
       phone = "";
@@ -72,7 +73,7 @@ class _ConversationDetailsScreenState extends State<ConversationDetailsScreen> {
         body: FooterBaseView(
           isScrollView:(!ResponsiveHelper.isTab(context) && !ResponsiveHelper.isMobile(context) && ResponsiveHelper.isWeb())  ? true: false,
           child: WebShadowWrap(
-            child: GetBuilder<ConversationController>(builder: (conversationController) {
+            child: widget.channelID == null ?  const EmptyConversationWidget(fromSearch: false,) : GetBuilder<ConversationController>(builder: (conversationController) {
               if(conversationController.conversationList != null){
                 List<ConversationData> conversationList = conversationController.conversationList!;
 
@@ -84,7 +85,7 @@ class _ConversationDetailsScreenState extends State<ConversationDetailsScreen> {
 
                       const SizedBox(height: Dimensions.paddingSizeSmall,),
                       if(ResponsiveHelper.isWeb() && !ResponsiveHelper.isMobile(context) && !ResponsiveHelper.isTab(context))
-                      Text(widget.name, style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeSmall,
+                      Text(widget.name ??"", style: ubuntuMedium.copyWith(fontSize: Dimensions.fontSizeSmall,
                           color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.5),
                         ), textDirection: TextDirection.ltr,
                       ),
@@ -120,7 +121,7 @@ class _ConversationDetailsScreenState extends State<ConversationDetailsScreen> {
                         },): SizedBox(child: Center(child: Text('no_conversation_yet'.tr)),),
                       ),
 
-                      ConversationSendMessageWidget(channelId: widget.channelID),
+                      ConversationSendMessageWidget(channelId: widget.channelID ??""),
 
                     ],
                   ),

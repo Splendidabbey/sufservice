@@ -98,7 +98,7 @@ class ScheduleController extends GetxController implements GetxService{
     Response response = await scheduleRepo.changePostScheduleTime(postId,scheduleTime);
 
     if(response.statusCode==200 && response.body['response_code']=="default_update_200"){
-      customSnackBar("service_schedule_updated_successfully".tr,isError: false);
+      customSnackBar("service_schedule_updated_successfully".tr,type : ToasterMessageType.success);
     }
   }
 

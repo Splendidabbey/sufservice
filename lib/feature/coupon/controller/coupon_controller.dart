@@ -97,7 +97,7 @@ class CouponController extends GetxController implements GetxService{
 
       if(!fromCheckout){
         Get.back();
-        customSnackBar(response.body['message'], isError: false);
+        customSnackBar(response.body['message'], type : ToasterMessageType.success);
       }
     }
     _isLoading = false;

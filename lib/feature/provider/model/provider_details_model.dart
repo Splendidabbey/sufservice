@@ -24,8 +24,10 @@ class ProviderDetails {
 class ProviderDetailsContent {
   ProviderData? provider;
   List<SubCategories>? subCategories;
+  ProviderReview? providerReview;
+  Rating? providerRating;
 
-  ProviderDetailsContent({this.provider, this.subCategories});
+  ProviderDetailsContent({this.provider, this.subCategories, this.providerReview, this.providerRating});
 
   ProviderDetailsContent.fromJson(Map<String, dynamic> json) {
     provider = json['provider'] != null
@@ -37,6 +39,10 @@ class ProviderDetailsContent {
         subCategories!.add(SubCategories.fromJson(v));
       });
     }
+    providerReview = json['reviews'] != null
+        ? ProviderReview.fromJson(json['reviews'])
+        : null;
+    providerRating = json['rating'] != null ? Rating.fromJson(json['rating']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -48,144 +54,13 @@ class ProviderDetailsContent {
       data['sub_categories'] =
           subCategories!.map((v) => v.toJson()).toList();
     }
-    return data;
-  }
-}
-
-class Provider {
-  String? id;
-  String? userId;
-  String? companyName;
-  String? companyPhone;
-  String? companyAddress;
-  String? companyEmail;
-  String? logo;
-  String? contactPersonName;
-  String? contactPersonPhone;
-  String? contactPersonEmail;
-  int? orderCount;
-  int? serviceManCount;
-  int? serviceCapacityPerDay;
-  int? ratingCount;
-  double? avgRating;
-  int? commissionStatus;
-  double? commissionPercentage;
-  int? isActive;
-  String? createdAt;
-  String? updatedAt;
-  int? isApproved;
-  String? zoneId;
-  Owner? owner;
-  int? serviceAvailability;
-  List<String>? weekends;
-  TimeSchedule? timeSchedule;
-  List<ReviewData>? reviews;
-
-  Provider(
-      {this.id,
-        this.userId,
-        this.companyName,
-        this.companyPhone,
-        this.companyAddress,
-        this.companyEmail,
-        this.logo,
-        this.contactPersonName,
-        this.contactPersonPhone,
-        this.contactPersonEmail,
-        this.orderCount,
-        this.serviceManCount,
-        this.serviceCapacityPerDay,
-        this.ratingCount,
-        this.avgRating,
-        this.commissionStatus,
-        this.commissionPercentage,
-        this.isActive,
-        this.createdAt,
-        this.updatedAt,
-        this.isApproved,
-        this.zoneId,
-        this.owner,
-        this.reviews,
-        this.serviceAvailability,
-        this.weekends,
-        this.timeSchedule
-      });
-
-  Provider.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['user_id'];
-    companyName = json['company_name'];
-    companyPhone = json['company_phone'];
-    companyAddress = json['company_address'];
-    companyEmail = json['company_email'];
-    logo = json['logo'];
-    contactPersonName = json['contact_person_name'];
-    contactPersonPhone = json['contact_person_phone'];
-    contactPersonEmail = json['contact_person_email'];
-    orderCount = json['order_count'];
-    serviceManCount = json['service_man_count'];
-    serviceCapacityPerDay = json['service_capacity_per_day'];
-    ratingCount = json['rating_count'];
-    avgRating = double.tryParse(json['avg_rating'].toString());
-    commissionStatus = json['commission_status'];
-    commissionPercentage = double.tryParse(json['commission_percentage'].toString());
-    isActive = json['is_active'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    isApproved = json['is_approved'];
-    zoneId = json['zone_id'];
-    serviceAvailability = int.tryParse(json['service_availability'].toString());
-    timeSchedule = json['time_schedule'] != null
-        ? TimeSchedule.fromJson(json['time_schedule'])
-        : null;
-    weekends = json['weekends'] != null ? json['weekends'].cast<String>() : [];
-    owner = json['owner'] != null ? Owner.fromJson(json['owner']) : null;
-    if (json['reviews'] != null) {
-      reviews = <ReviewData>[];
-      json['reviews'].forEach((v) {
-        reviews!.add(ReviewData.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['user_id'] = userId;
-    data['company_name'] = companyName;
-    data['company_phone'] = companyPhone;
-    data['company_address'] = companyAddress;
-    data['company_email'] = companyEmail;
-    data['logo'] = logo;
-    data['contact_person_name'] = contactPersonName;
-    data['contact_person_phone'] = contactPersonPhone;
-    data['contact_person_email'] = contactPersonEmail;
-    data['order_count'] = orderCount;
-    data['service_man_count'] = serviceManCount;
-    data['service_capacity_per_day'] = serviceCapacityPerDay;
-    data['rating_count'] = ratingCount;
-    data['avg_rating'] = avgRating;
-    data['commission_status'] = commissionStatus;
-    data['commission_percentage'] = commissionPercentage;
-    data['is_active'] = isActive;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['is_approved'] = isApproved;
-    data['zone_id'] = zoneId;
-    data['service_availability'] = serviceAvailability;
-    if (timeSchedule != null) {
-      data['time_schedule'] = timeSchedule!.toJson();
-    }
-    data['weekends'] = weekends;
-    if (owner != null) {
-      data['owner'] = owner!.toJson();
-    }
-    if (reviews != null) {
-      data['reviews'] = reviews!.map((v) => v.toJson()).toList();
+    if (providerRating != null) {
+      data['rating'] = providerRating!.toJson();
     }
     return data;
   }
 }
+
 class SubCategories {
   String? id;
   String? parentId;
@@ -265,6 +140,42 @@ class TimeSchedule {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['start_time'] = startTime;
     data['end_time'] = endTime;
+    return data;
+  }
+}
+
+class ProviderReview {
+  List<Review>? reviewList;
+  int? lastPage;
+  int? currentPage;
+  int? total;
+
+  ProviderReview({this.reviewList,
+    this.lastPage,
+    this.total,
+    this.currentPage
+  });
+
+  ProviderReview.fromJson(Map<String, dynamic> json) {
+    if (json['data'] != null) {
+      reviewList = <Review>[];
+      json['data'].forEach((v) {
+        reviewList!.add(Review.fromJson(v));
+      });
+    }
+    lastPage = json['last_page'];
+    currentPage = json['current_page'];
+    total = json['total'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (reviewList != null) {
+      data['data'] = reviewList!.map((v) => v.toJson()).toList();
+    }
+    data['last_page'] = lastPage;
+    data['current_page'] = currentPage;
+    data['total'] = total;
     return data;
   }
 }

@@ -1,4 +1,4 @@
-import '../../../utils/core_export.dart';
+import 'package:demandium/utils/core_export.dart';
 
 class ReviewModel {
   String? responseCode;
@@ -33,10 +33,8 @@ class ReviewContent {
   ReviewContent({this.reviews, this.rating});
 
   ReviewContent.fromJson(Map<String, dynamic> json) {
-    reviews =
-    json['reviews'] != null ? Reviews.fromJson(json['reviews']) : null;
-    rating =
-    json['rating'] != null ? Rating.fromJson(json['rating']) : null;
+    reviews = json['reviews'] != null ? Reviews.fromJson(json['reviews']) : null;
+    rating = json['rating'] != null ? Rating.fromJson(json['rating']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -53,56 +51,28 @@ class ReviewContent {
 
 class Reviews {
   int? currentPage;
-  List<ReviewData>? reviewList;
+  List<Review>? reviewList;
   String? firstPageUrl;
-  int? from;
   int? lastPage;
-  String? lastPageUrl;
-  List<Links>? links;
-  String? nextPageUrl;
-  String? path;
-  String? perPage;
-  String? prevPageUrl;
-  int? to;
   int? total;
 
   Reviews(
       {this.currentPage,
         this.reviewList,
         this.firstPageUrl,
-        this.from,
         this.lastPage,
-        this.lastPageUrl,
-        this.links,
-        this.nextPageUrl,
-        this.path,
-        this.perPage,
-        this.prevPageUrl,
-        this.to,
         this.total});
 
   Reviews.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
     if (json['data'] != null) {
-      reviewList = <ReviewData>[];
+      reviewList = <Review>[];
       json['data'].forEach((v) {
-        reviewList!.add(ReviewData.fromJson(v));
+        reviewList!.add(Review.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
-    from = json['from'];
     lastPage = json['last_page'];
-    lastPageUrl = json['last_page_url'];
-    if (json['links'] != null) {
-      links = <Links>[];
-      json['links'].forEach((v) {
-        links!.add(Links.fromJson(v));
-      });
-    }
-    nextPageUrl = json['next_page_url'];
-    path = json['path'];
-    prevPageUrl = json['prev_page_url'];
-    to = json['to'];
     total = json['total'];
   }
 
@@ -113,36 +83,28 @@ class Reviews {
       data['data'] = reviewList!.map((v) => v.toJson()).toList();
     }
     data['first_page_url'] = firstPageUrl;
-    data['from'] = from;
     data['last_page'] = lastPage;
-    data['last_page_url'] = lastPageUrl;
-    if (links != null) {
-      data['links'] = links!.map((v) => v.toJson()).toList();
-    }
-    data['next_page_url'] = nextPageUrl;
-    data['path'] = path;
-    data['per_page'] = perPage;
-    data['prev_page_url'] = prevPageUrl;
-    data['to'] = to;
     data['total'] = total;
     return data;
   }
 }
 
-class ReviewData {
+class Review {
   String? id;
   String? bookingId;
   String? serviceId;
   String? providerId;
-  double? reviewRating;
+  int? reviewRating;
   String? reviewComment;
   String? bookingDate;
   int? isActive;
   String? createdAt;
   String? updatedAt;
   Customer? customer;
+  ProviderData? provider;
+  ReviewReply? reviewReply;
 
-  ReviewData(
+  Review(
       {this.id,
         this.bookingId,
         this.serviceId,
@@ -154,14 +116,16 @@ class ReviewData {
         this.createdAt,
         this.updatedAt,
         this.customer,
+        this.reviewReply,
+        this.provider
       });
 
-  ReviewData.fromJson(Map<String, dynamic> json) {
+  Review.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     bookingId = json['booking_id'];
     serviceId = json['service_id'];
     providerId = json['provider_id'];
-    reviewRating = json['review_rating'].toDouble();
+    reviewRating = int.tryParse(json['review_rating'].toString());
     reviewComment = json['review_comment'];
     bookingDate = json['booking_date'];
     isActive = json['is_active'];
@@ -169,6 +133,12 @@ class ReviewData {
     updatedAt = json['updated_at'];
     customer = json['customer'] != null
         ? Customer.fromJson(json['customer'])
+        : null;
+    reviewReply = json['review_reply'] != null
+        ? ReviewReply.fromJson(json['review_reply'])
+        : null;
+    provider = json['provider'] != null
+        ? ProviderData.fromJson(json['provider'])
         : null;
   }
 
@@ -187,19 +157,27 @@ class ReviewData {
     if (customer != null) {
       data['customer'] = customer!.toJson();
     }
+    if (reviewReply != null) {
+      data['review_reply'] = reviewReply!.toJson();
+    }
+    if (provider != null) {
+      data['provider'] = provider!.toJson();
+    }
     return data;
   }
 }
 class Rating {
-  num? ratingCount;
-  num? averageRating;
+  int ? ratingCount;
+  int ? reviewCount;
+  double? averageRating;
   List<RatingGroupCount>? ratingGroupCount;
 
-  Rating({this.ratingCount, this.averageRating, this.ratingGroupCount});
+  Rating({this.ratingCount, this.averageRating, this.ratingGroupCount, this.reviewCount});
 
   Rating.fromJson(Map<String, dynamic> json) {
-    ratingCount = json['rating_count'];
-    averageRating = json['average_rating'];
+    ratingCount = int.tryParse(json['rating_count'].toString());
+    reviewCount = int.tryParse(json['review_count'].toString());
+    averageRating = double.tryParse(json['average_rating'].toString());
     if (json['rating_group_count'] != null) {
       ratingGroupCount = <RatingGroupCount>[];
       json['rating_group_count'].forEach((v) {
@@ -211,6 +189,7 @@ class Rating {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['rating_count'] = ratingCount;
+    data['review_count'] = ratingCount;
     data['average_rating'] = averageRating;
     if (ratingGroupCount != null) {
       data['rating_group_count'] =
@@ -235,6 +214,43 @@ class RatingGroupCount {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['review_rating'] = reviewRating;
     data['total'] = total;
+    return data;
+  }
+}
+
+class ReviewReply {
+  String? id;
+  int? readableId;
+  String? userId;
+  String? reply;
+  String? createdAt;
+  String? updatedAt;
+
+  ReviewReply(
+      {this.id,
+        this.readableId,
+        this.userId,
+        this.reply,
+        this.createdAt,
+        this.updatedAt});
+
+  ReviewReply.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    readableId = json['readable_id'];
+    userId = json['user_id'];
+    reply = json['reply'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['readable_id'] = readableId;
+    data['user_id'] = userId;
+    data['reply'] = reply;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

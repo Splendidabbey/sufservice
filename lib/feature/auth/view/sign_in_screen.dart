@@ -5,8 +5,8 @@ import 'package:demandium/utils/core_export.dart';
 
 class SignInScreen extends StatefulWidget {
   final bool exitFromApp;
-  final String fromPage;
-   const SignInScreen({super.key,required this.exitFromApp, required this.fromPage}) ;
+  final String? fromPage;
+   const SignInScreen({super.key,required this.exitFromApp,  this.fromPage}) ;
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -86,13 +86,14 @@ class _SignInScreenState extends State<SignInScreen> {
                         capitalization: TextCapitalization.words,
                         onChanged: (String text){
                           if(authController.selectedLoginMedium != LoginMedium.otp){
-                            final numberRegExp = RegExp(r'^-?[0-9]+$');
+                            final numberRegExp = RegExp(r'^[+]?[0-9]+$');
 
                             if(text.isEmpty && authController.isNumberLogin){
                               authController.toggleIsNumberLogin();
                             }
                             if(text.startsWith(numberRegExp) && !authController.isNumberLogin && manualLogin == 1){
                               authController.toggleIsNumberLogin();
+                              signInPhoneController.text = text.replaceAll("+", "");
                             }
                             final emailRegExp = RegExp(r'@');
                             if(text.contains(emailRegExp) && authController.isNumberLogin && manualLogin == 1){
@@ -363,7 +364,7 @@ class _SignInScreenState extends State<SignInScreen> {
          }
         });
       }else{
-        authController.login(widget.fromPage, phone !="" ? phone : signInPhoneController.text.trim(), signInPasswordController.text.trim(),phone !="" ? "phone" : "email");
+        authController.login(fromPage : widget.fromPage, emailPhone :phone !="" ? phone : signInPhoneController.text.trim(), password : signInPasswordController.text.trim(), type : phone !="" ? "phone" : "email");
       }
     }
   }

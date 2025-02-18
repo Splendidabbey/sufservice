@@ -53,12 +53,12 @@ class _ProceedToCheckoutButtonWidgetState extends State<ProceedToCheckoutButtonW
                 child: CustomButton(
                   height: 50,
                   isLoading: checkoutController.isLoading,
-                  buttonText: !isPartialPayment && cartController.walletPaymentStatus? "place_booking".tr :'proceed_to_checkout'.tr,
+                  buttonText: cartController.cartList.isEmpty ? "empty_cart_go_back".tr : !isPartialPayment && cartController.walletPaymentStatus? "place_booking".tr :'proceed_to_checkout'.tr,
                   onPressed : (widget.pageState == "payment" || checkoutController.currentPageState == PageState.payment) && checkoutController.othersPaymentList.isEmpty && checkoutController.digitalPaymentList.isEmpty ? null : () {
                     if(errorText !=null && scheduleController.selectedScheduleType != ScheduleType.asap ){
                       customSnackBar(errorText.tr);
                     }
-                    else if( checkoutController.acceptTerms){
+                    else if( checkoutController.acceptTerms || cartController.cartList.isEmpty ){
                       AddressModel? addressModel = Get.find<LocationController>().selectedAddress ?? Get.find<LocationController>().getUserAddress();
 
                       if(Get.find<CartController>().cartList.isEmpty) {
@@ -75,13 +75,13 @@ class _ProceedToCheckoutButtonWidgetState extends State<ProceedToCheckoutButtonW
                               useRootNavigator: true,
                               isScrollControlled: true,
                               backgroundColor: Colors.transparent,
-                              context: context, builder: (context) =>  AvailableProviderWidget(
+                              context: Get.context!, builder: (context) =>  AvailableProviderWidget(
                               subcategoryId:Get.find<CartController>().cartList.first.subCategoryId,
                               showUnavailableError: true,
                             ),);
                           });
 
-                          customSnackBar("your_selected_provider_is_unavailable_right_now".tr,duration: 3);
+                          customSnackBar("your_selected_provider_is_unavailable_right_now".tr,duration: 3, type: ToasterMessageType.info);
 
                         });
 
@@ -90,16 +90,16 @@ class _ProceedToCheckoutButtonWidgetState extends State<ProceedToCheckoutButtonW
                       else if(checkoutController.currentPageState == PageState.orderDetails && PageState.orderDetails.name == widget.pageState){
 
                         if(schedule == null && scheduleController.selectedScheduleType != ScheduleType.asap) {
-                          customSnackBar("select_your_preferable_booking_time".tr);
+                          customSnackBar("select_your_preferable_booking_time".tr, type: ToasterMessageType.info);
                         }
                         else if(scheduleController.selectedScheduleType == ScheduleType.schedule && configModel.content?.scheduleBookingTimeRestriction == 1 && scheduleController.checkValidityOfTimeRestriction(Get.find<SplashController>().configModel.content!.advanceBooking!) != null){
                           customSnackBar(scheduleController.checkValidityOfTimeRestriction(Get.find<SplashController>().configModel.content!.advanceBooking!));
                         }
                         else if(addressModel == null){
-                          customSnackBar("add_address_first".tr);
+                          customSnackBar("add_address_first".tr, type: ToasterMessageType.info);
                         }
                         else if((addressModel.contactPersonName == "null" || addressModel.contactPersonName == null || addressModel.contactPersonName!.isEmpty) || (addressModel.contactPersonNumber=="null" || addressModel.contactPersonNumber == null || addressModel.contactPersonNumber!.isEmpty)){
-                          customSnackBar("please_input_contact_person_name_and_phone_number".tr);
+                          customSnackBar("please_input_contact_person_name_and_phone_number".tr, type: ToasterMessageType.info);
 
                         }
                         else{
@@ -127,7 +127,7 @@ class _ProceedToCheckoutButtonWidgetState extends State<ProceedToCheckoutButtonW
                       else if(checkoutController.currentPageState == PageState.payment || PageState.payment.name == widget.pageState){
 
                         if(checkoutController.selectedPaymentMethod == PaymentMethodName.none){
-                          customSnackBar("select_payment_method".tr);
+                          customSnackBar("select_payment_method".tr, type: ToasterMessageType.info);
                         }
                         else if(checkoutController.selectedPaymentMethod == PaymentMethodName.cos){
                           checkoutController.placeBookingRequest(
@@ -148,7 +148,7 @@ class _ProceedToCheckoutButtonWidgetState extends State<ProceedToCheckoutButtonW
                             );
                           }
                           else{
-                            customSnackBar("insufficient_wallet_balance".tr);
+                            customSnackBar("insufficient_wallet_balance".tr, type: ToasterMessageType.info);
                           }
                         } else if(checkoutController.selectedPaymentMethod == PaymentMethodName.offline){
 
@@ -163,7 +163,7 @@ class _ProceedToCheckoutButtonWidgetState extends State<ProceedToCheckoutButtonW
                               customerInformation:  base64Url.encode(utf8.encode(jsonEncode(checkoutController.offlinePaymentInputFieldValues))),
                             );
                           } else{
-                            customSnackBar("provide_offline_payment_info".tr);
+                            customSnackBar("provide_offline_payment_info".tr, type: ToasterMessageType.info);
                           }
 
                         }else if( checkoutController.selectedPaymentMethod == PaymentMethodName.digitalPayment){
@@ -171,7 +171,7 @@ class _ProceedToCheckoutButtonWidgetState extends State<ProceedToCheckoutButtonW
                           if(checkoutController.selectedDigitalPaymentMethod != null && checkoutController.selectedDigitalPaymentMethod?.gateway != "offline"){
                             _makeDigitalPayment(addressModel, checkoutController.selectedDigitalPaymentMethod, isPartialPayment);
                           }else{
-                            customSnackBar("select_any_payment_method".tr);
+                            customSnackBar("select_any_payment_method".tr, type: ToasterMessageType.info);
                           }
 
                         }
@@ -183,7 +183,7 @@ class _ProceedToCheckoutButtonWidgetState extends State<ProceedToCheckoutButtonW
                       }
                     }
                     else{
-                      customSnackBar('please_agree_with_terms_conditions');
+                      customSnackBar('please_agree_with_terms_conditions'.tr, type: ToasterMessageType.info);
                     }
                   },
                 ),

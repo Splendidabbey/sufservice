@@ -35,7 +35,7 @@ class WebCampaignView extends GetView<BannerController> {
                 borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                 child: CustomImage(
                   image: '${campaignController.campaignList![0].coverImageFullPath}',
-                  fit: BoxFit.fill,
+                  placeHolderBoxFit : BoxFit.fill,
                   height: 220,
                 ),
               ),): Stack(clipBehavior: Clip.none, fit: StackFit.expand, children: [

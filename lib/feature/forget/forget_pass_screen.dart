@@ -46,7 +46,7 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
         if(Navigator.canPop(context)){
           Get.back();
         }else{
-          Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+          Get.toNamed(RouteHelper.getSignInRoute());
         }
         },
       ),

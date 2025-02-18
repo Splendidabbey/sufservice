@@ -181,7 +181,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 locationController.updateSelectedAddress(addressModel);
               }
               Get.back();
-              customSnackBar(response.message!.tr,isError: false);
+              customSnackBar(response.message!.tr,type : ToasterMessageType.success);
             }else {
               customSnackBar(response.message!.tr);
             }
@@ -200,7 +200,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       permission = await Geolocator.requestPermission();
     }
     if(permission == LocationPermission.denied) {
-      customSnackBar('you_have_to_allow'.tr);
+      customSnackBar('you_have_to_allow'.tr, type: ToasterMessageType.info);
     }else if(permission == LocationPermission.deniedForever) {
       Get.dialog(const PermissionDialog());
     }else {

@@ -48,7 +48,7 @@ class NotificationHelper {
 
           else if(notificationBody.type == 'logout'){
             Get.find<AuthController>().clearSharedData();
-            Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+            Get.offNamed(RouteHelper.getSignInRoute());
           }
           else if(notificationBody.type == 'wallet'){
             if(!Get.currentRoute.contains(RouteHelper.myWallet)){
@@ -79,10 +79,8 @@ class NotificationHelper {
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      printLog("onMessage: ${message.notification?.title}/${message.notification?.body}/${message.notification?.titleLocKey} || ${message.data}");
       if (kDebugMode) {
-        print("For more query: ${message.contentAvailable}");
-        print("Data is ${message.data}");
+        print("onMessage: Notification Type => ${message.data["type"]}/ Title => ${message.data['title']} ${message.notification?.title}/${message.notification?.body}/${message.notification?.titleLocKey}");
       }
       if(!ResponsiveHelper.isWeb()){
         if(message.data['type']=='bidding'){
@@ -145,14 +143,16 @@ class NotificationHelper {
           Get.find<AuthController>().googleLogout();
           Get.find<AuthController>().signOutWithFacebook();
           Get.find<LocationController>().updateSelectedAddress(null);
-          Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+          Get.offNamed(RouteHelper.getSignInRoute());
           customSnackBar(message.data['title'], duration: 4);
         }
         else if(message.data['type'] == 'maintenance'){
           Get.find<SplashController>().getConfigData();
         }
         else if(message.data['type'] == 'demo_reset') {
-          Get.dialog(const DemoResetDialogWidget(), barrierDismissible: false);
+          if(Get.find<SplashController>().configModel.content?.appEnvironment == "demo"){
+            Get.dialog(const DemoResetDialogWidget(), barrierDismissible: false);
+          }
         }
         else{
           NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin, false);
@@ -244,11 +244,8 @@ class NotificationHelper {
            }
          }
          else if(notificationBody.type == 'logout'){
-           if(kDebugMode){
-             print("Ekhane Ami In onMessageOpenedApp");
-           }
            Get.find<AuthController>().clearSharedData();
-           Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+           Get.offNamed(RouteHelper.getSignInRoute());
          }
          else{
            Get.toNamed(RouteHelper.getNotificationRoute());

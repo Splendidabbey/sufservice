@@ -76,16 +76,14 @@ class ServiceAreaController extends GetxController implements GetxService{
       }
       markerList.add(Marker(
         infoWindow: GetPlatform.isWeb || GetPlatform.isIOS ? InfoWindow(
-          title: zoneList[index].name
+            title: zoneList[index].name
         ) : InfoWindow.noText,
         markerId: MarkerId('provider$index'),
         icon: GetPlatform.isWeb || GetPlatform.isIOS ? BitmapDescriptor.defaultMarker : await MarkerIcon.widgetToIcon(globalKeymap[index.toString()]!) ,
         position: computeCentroid(coordinates : zoneList[index].formattedCoordinates!),
       ));
     }
-
     _markers = HashSet<Marker>.of(markerList);
-
   }
 
 

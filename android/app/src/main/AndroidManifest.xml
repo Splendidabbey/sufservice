@@ -24,9 +24,10 @@
     </queries>
 
     <application
-        android:label="Suf Service"
+        android:label="Sufservice"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
+        android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher">
         android:requestLegacyExternalStorage="true"
 

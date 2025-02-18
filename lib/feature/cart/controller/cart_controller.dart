@@ -260,7 +260,7 @@ class CartController extends GetxController implements GetxService {
           _isLoading = false;
           Get.back();
           if(fromServiceCenterDialog){
-            customSnackBar("successfully_added_to_cart".tr,isError: false);
+            customSnackBar("successfully_added_to_cart".tr,type : ToasterMessageType.success);
           }
         },
       ));
@@ -275,7 +275,7 @@ class CartController extends GetxController implements GetxService {
 
       if(fromServiceCenterDialog){
         Get.back();
-        customSnackBar("successfully_added_to_cart".tr,isError: false);
+        customSnackBar("successfully_added_to_cart".tr,type : ToasterMessageType.success);
       }
     }
     _isLoading = false;
@@ -523,7 +523,6 @@ class CartController extends GetxController implements GetxService {
             style: ubuntuRegular.copyWith(color: Colors.white),
           ),
         ],),
-        backgroundColor: Colors.black87,
       );
     }else{
       if(configModel.content!.maxBookingAmount !=0 && configModel.content!.maxBookingAmount! < _totalPrice &&  _cartList.isNotEmpty){
@@ -541,7 +540,6 @@ class CartController extends GetxController implements GetxService {
               ],),
             ],
           ),
-          backgroundColor: Colors.black87,
         );
       }
     }

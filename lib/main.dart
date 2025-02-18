@@ -25,7 +25,7 @@ Future<void> main() async {
           measurementId: "G-1KY06ZMQSH"
         )
     );
-    await FacebookAuth.instance.webInitialize(
+    await FacebookAuth.instance.webAndDesktopInitialize(
       appId: "637072917840079",
       cookie: true,
       xfbml: true,
@@ -38,6 +38,7 @@ Future<void> main() async {
   if(defaultTargetPlatform == TargetPlatform.android) {
     await FirebaseMessaging.instance.requestPermission();
   }
+
 
   Map<String, Map<String, String>> languages = await di.init();
   NotificationBody? body;
@@ -54,9 +55,9 @@ Future<void> main() async {
     await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
     FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
   }catch(e) {
-  if (kDebugMode) {
-    print("");
-  }
+    if (kDebugMode) {
+      print("");
+    }
   }
   runApp(MyApp(languages: languages, body: body, route: path,));
 }
@@ -77,7 +78,7 @@ class MyApp extends StatefulWidget {
 
 Future<String?> initDynamicLinks() async {
   final appLinks = AppLinks();
-  final uri = await appLinks.getInitialAppLink();
+  final uri = await appLinks.getInitialLink();
   String? path;
   if (uri != null) {
     path = uri.path;
@@ -138,7 +139,6 @@ class _MyAppState extends State<MyApp> {
           if ((GetPlatform.isWeb && splashController.configModel.content == null)) {
             return const SizedBox();
           } else {return GetMaterialApp(
-
             title: AppConstants.appName,
             debugShowCheckedModeBanner: false,
             navigatorKey: Get.key,
@@ -150,7 +150,7 @@ class _MyAppState extends State<MyApp> {
             locale: localizeController.locale,
             translations: Messages(languages: widget.languages),
             fallbackLocale: Locale(AppConstants.languages[0].languageCode!, AppConstants.languages[0].countryCode),
-            initialRoute: GetPlatform.isWeb ? RouteHelper.getInitialRoute(fromPage: "main") : RouteHelper.getSplashRoute(widget.body, widget.route),
+            initialRoute: GetPlatform.isWeb ? RouteHelper.getInitialRoute() : RouteHelper.getSplashRoute(widget.body, widget.route),
             getPages: RouteHelper.routes,
             defaultTransition: Transition.fadeIn,
             transitionDuration: const Duration(milliseconds: 500),

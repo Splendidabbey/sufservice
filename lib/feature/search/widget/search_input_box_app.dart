@@ -51,9 +51,9 @@ class _SearchInputBoxAppState extends State<SearchInputBoxApp> {
             suffixIcon: InkWell(
               onTap: () {
                 if(searchController.searchController.text.isNotEmpty && searchController.searchController.text.length > 255){
-                  customSnackBar('search_text_length_message'.tr, isError: true, showDefaultSnackBar: false);
+                  customSnackBar('search_text_length_message'.tr,  showDefaultSnackBar: false, type: ToasterMessageType.info);
                 }else if (searchController.searchController.text.isEmpty){
-                  customSnackBar('search_text_empty_message'.tr, isError: true, showDefaultSnackBar: false);
+                  customSnackBar('search_text_empty_message'.tr, showDefaultSnackBar: false, type: ToasterMessageType.info);
                 }else{
                   Get.back();
                   FocusScope.of(context).unfocus();
@@ -81,14 +81,14 @@ class _SearchInputBoxAppState extends State<SearchInputBoxApp> {
           onSubmitted: (text) {
             if(text.isNotEmpty) {
               if(text.length > 255){
-                customSnackBar('search_text_length_message'.tr, isError: true);
+                customSnackBar('search_text_length_message'.tr, type: ToasterMessageType.info);
               }else{
                 Get.back();
                 FocusScope.of(context).unfocus();
                 Get.toNamed(RouteHelper.getSearchResultRoute(queryText: text));
               }
             }else{
-              customSnackBar('search_text_empty_message'.tr, isError: true);
+              customSnackBar('search_text_empty_message'.tr, type: ToasterMessageType.info);
             }
           },
         ));

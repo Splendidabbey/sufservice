@@ -169,6 +169,10 @@ class Images {
   static String get otp => 'otp'.png;
   static String get verified => 'verified'.png;
   static String get error => 'error'.png;
+  static String get error404 => 'error_404'.png;
+  static String get reviewReply => 'review_reply'.png;
+  static String get mapIconExtended => 'map-picker-1'.json;
+  static String get mapIconMinimised => 'map-picker-2'.json;
 
 
   ///web social icon
@@ -187,4 +191,5 @@ class Images {
 extension on String {
   String get png => 'assets/images/$this.png';
   String get jpg => 'assets/images/$this.jpg';
+  String get json => 'assets/json/$this.json';
 }

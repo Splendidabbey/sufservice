@@ -94,7 +94,7 @@ class ExploreProviderController extends GetxController implements GetxService {
       if(response.body['content']['status'] !=null){
         status  = response.body['content']['status'];
         updateIsFavoriteValue(status,providerId);
-        customSnackBar(response.body['message'], isError: status == 1 ? false : true);
+        customSnackBar(response.body['message'], type : status == 1 ? ToasterMessageType.success : ToasterMessageType.error);
       }
     }
 
@@ -125,7 +125,7 @@ class ExploreProviderController extends GetxController implements GetxService {
     Position myPosition;
     try {
       Geolocator.requestPermission();
-      Position newLocalData = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      Position newLocalData = await Geolocator.getCurrentPosition();
       myPosition = newLocalData;
 
     }catch(e) {

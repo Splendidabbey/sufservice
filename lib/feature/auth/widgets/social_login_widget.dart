@@ -3,8 +3,8 @@ import 'package:demandium/feature/auth/widgets/social_login_button.dart';
 import 'package:get/get.dart';
 
 class SocialLoginWidget extends StatelessWidget {
-  final String fromPage;
-  const SocialLoginWidget({super.key, required this.fromPage});
+  final String? fromPage;
+  const SocialLoginWidget({super.key,  this.fromPage});
 
   @override
   Widget build(BuildContext context) {

@@ -50,7 +50,7 @@ class HomeCreatePostView extends StatelessWidget {
                       if(Get.find<AuthController>().isLoggedIn()){
                         Get.toNamed(RouteHelper.getCreatePostScreen());
                       }else{
-                        Get.toNamed(RouteHelper.getNotLoggedScreen(RouteHelper.main.tr,"create_post"));
+                        Get.toNamed(RouteHelper.getNotLoggedScreen(RouteHelper.home.tr,"create_post"));
                       }
                     },
                   ),

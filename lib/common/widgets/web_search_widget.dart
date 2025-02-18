@@ -18,6 +18,8 @@ class SearchWidgetWeb extends GetView<AllSearchController> {
                   onTap: () {
                     if(Get.find<LocationController>().getUserAddress() !=null){
                       openSearchDialog ? Get.dialog(const SearchSuggestionDialog(), transitionCurve: Curves.fastOutSlowIn) : null;
+                    }else{
+                      Get.toNamed(RouteHelper.getPickMapRoute(RouteHelper.accessLocation , true, 'false', null, null,));
                     }
                   } ,
                   controller: controller.searchController,
@@ -38,12 +40,12 @@ class SearchWidgetWeb extends GetView<AllSearchController> {
                   onSubmitted: (value){
                     if(value.isNotEmpty) {
                       if(value.length > 255){
-                        customSnackBar('search_text_length_message'.tr, isError: true);
+                        customSnackBar('search_text_length_message'.tr, type: ToasterMessageType.info);
                       }else{
                         controller.navigateToSearchResultScreen();
                       }
                     }else{
-                      customSnackBar('search_text_empty_message'.tr, isError: true);
+                      customSnackBar('search_text_empty_message'.tr, type: ToasterMessageType.info);
                     }
                     FocusScope.of(context).unfocus();
                   },

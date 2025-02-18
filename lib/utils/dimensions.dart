@@ -21,6 +21,7 @@ class Dimensions {
   static const double paddingSizeExtraMoreLarge = 40.0;
   static const double paddingForChattingButton = 60.0;
   static const double pagesBottomPadding = 100.0;
+  static const double pickMapIconSize = 100.0;
 
   
   

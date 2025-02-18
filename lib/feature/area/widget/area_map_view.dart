@@ -5,7 +5,8 @@ import 'package:get/get.dart';
 
 class AreaMapViewScreen extends StatefulWidget {
   final List<ZoneModel> zoneList;
-  const AreaMapViewScreen({super.key, required this.zoneList});
+  final Function(bool)? onValueChanged;
+  const AreaMapViewScreen({super.key, required this.zoneList,  this.onValueChanged});
   @override
   State<AreaMapViewScreen> createState() => _AreaMapViewScreenState();
 }
@@ -14,6 +15,7 @@ class _AreaMapViewScreenState extends State<AreaMapViewScreen> {
   final Completer<GoogleMapController> _controller = Completer();
   GoogleMapController? _mapController;
   LatLng? _initialPosition;
+
 
   Map<String, GlobalKey> globalKeyMap = {};
 
@@ -31,7 +33,21 @@ class _AreaMapViewScreenState extends State<AreaMapViewScreen> {
         index.toString() : GlobalKey()
       });
     }
+  }
 
+  void _onPanStart() {
+    if(widget.onValueChanged != null){
+      setState(() {
+        widget.onValueChanged!(true);
+      });
+    }
+  }
+  void _onPanEnd() {
+    if(widget.onValueChanged != null){
+      setState(() {
+        widget.onValueChanged!(false);
+      });
+    }
   }
 
   @override
@@ -54,24 +70,29 @@ class _AreaMapViewScreenState extends State<AreaMapViewScreen> {
 
                     Container(color: Theme.of(context).scaffoldBackgroundColor,),
 
-                    GoogleMap(
-                      initialCameraPosition: CameraPosition(target: _initialPosition!, zoom: 4),
-                      minMaxZoomPreference: const MinMaxZoomPreference(0, 16),
-                      onMapCreated: (GoogleMapController mapController) {
-                        _controller.complete(mapController);
-                        _mapController = mapController;
-                        if (kDebugMode) {
-                         print("Map : $_mapController");
-                        }
-                        Future.delayed(const Duration(milliseconds: 100));
-                        serviceAreaController.setMarker(widget.zoneList, globalKeyMap).then((value) => serviceAreaController.mapBound(mapController));
-                      },
-                      style: Get.isDarkMode ? Get.find<ThemeController>().darkMap : Get.find<ThemeController>().lightMap,
-                      zoomControlsEnabled: false,
-                      myLocationButtonEnabled: false,
-                      markers: serviceAreaController.markers,
-                      polygons: serviceAreaController.polygone,
+                    MouseRegion(
+                      onEnter: (event) => _onPanStart(),
+                      onExit: (event) => _onPanEnd(),
+                      child: GoogleMap(
+                        initialCameraPosition: CameraPosition(target: _initialPosition!, zoom: 4),
+                        minMaxZoomPreference: const MinMaxZoomPreference(0, 16),
+                        onMapCreated: (GoogleMapController mapController) {
+                          _controller.complete(mapController);
+                          _mapController = mapController;
+                          if (kDebugMode) {
+                           print("Map : $_mapController");
+                          }
+                          Future.delayed(const Duration(milliseconds: 100));
+                          serviceAreaController.setMarker(widget.zoneList, globalKeyMap).then((value) => serviceAreaController.mapBound(mapController));
+                        },
+                        style: Get.isDarkMode ? Get.find<ThemeController>().darkMap : Get.find<ThemeController>().lightMap,
+                        zoomControlsEnabled: ResponsiveHelper.isDesktop(context) ? true : false,
+                        myLocationButtonEnabled: false,
+                        markers: serviceAreaController.markers,
+                        polygons: serviceAreaController.polygone,
 
+
+                      ),
                     )
                   ],
                 ),

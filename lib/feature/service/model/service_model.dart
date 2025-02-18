@@ -94,6 +94,7 @@ class Service {
   List<Faqs>? faqs;
   List<ServiceDiscount>? serviceDiscount;
   List<ServiceDiscount>? campaignDiscount;
+  List<Review>? review;
 
   Service(
       {this.id,
@@ -120,6 +121,7 @@ class Service {
         this.faqs,
         this.serviceDiscount,
         this.campaignDiscount,
+        this.review,
       });
 
   Service.fromJson(Map<String, dynamic> json) {
@@ -149,6 +151,13 @@ class Service {
       variations = <Variations>[];
       json['variations'].forEach((v) {
         variations!.add(Variations.fromJson(v));
+      });
+    }
+
+    if (json['reviews'] != null) {
+      review = <Review>[];
+      json['reviews'].forEach((v) {
+        review!.add(Review.fromJson(v));
       });
     }
 
@@ -201,6 +210,9 @@ class Service {
 
     if (variations != null) {
       data['variations'] = variations!.map((v) => v.toJson()).toList();
+    }
+    if (review != null) {
+      data['reviews'] = review!.map((v) => v.toJson()).toList();
     }
 
     if (category != null) {

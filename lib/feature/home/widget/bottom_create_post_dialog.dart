@@ -97,7 +97,7 @@ class BottomCreatePostDialog extends StatelessWidget {
               if(Get.find<AuthController>().isLoggedIn()){
                 Get.toNamed(RouteHelper.getCreatePostScreen());
               }else{
-                Get.toNamed(RouteHelper.getNotLoggedScreen(RouteHelper.main,"create_post"));
+                Get.toNamed(RouteHelper.getNotLoggedScreen(RouteHelper.home,"create_post"));
               }
             },
           ),

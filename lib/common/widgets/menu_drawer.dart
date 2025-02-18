@@ -48,14 +48,14 @@ class _MenuDrawerState  extends State<MenuDrawer> with SingleTickerProviderState
       Get.back();
       Get.toNamed(RouteHelper.getVoucherRoute(fromPage: "menu"));
       if(Get.find<LocationController>().getUserAddress() == null){
-        customSnackBar("pick_an_address".tr);
+        customSnackBar("pick_an_address".tr, type: ToasterMessageType.info);
       }
     }),
 
     Menu(icon: Images.myFavorite, title: 'my_favorite'.tr, onTap: () {
       Get.back();
       Get.toNamed(Get.find<AuthController>().isLoggedIn() ?
-      RouteHelper.getMyFavoriteScreen() : RouteHelper.getNotLoggedScreen(RouteHelper.myFavorite,"my_favorite"));
+      RouteHelper.getMyFavoriteScreen() : RouteHelper.getNotLoggedScreen(RouteHelper.favorite,"my_favorite"));
     }),
 
     if(Get.find<SplashController>().configModel.content!.walletStatus != 0 && Get.find<AuthController>().isLoggedIn())
@@ -119,10 +119,10 @@ class _MenuDrawerState  extends State<MenuDrawer> with SingleTickerProviderState
            Get.find<AuthController>().googleLogout();
            Get.find<AuthController>().signOutWithFacebook();
            Get.offAllNamed(RouteHelper.getInitialRoute());
-           customSnackBar("logged_out_successfully".tr, isError: false);
+           customSnackBar("logged_out_successfully".tr, type : ToasterMessageType.success);
          }), useSafeArea: false);
        }else {
-         Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+         Get.toNamed(RouteHelper.getSignInRoute());
        }
       }),
   ];

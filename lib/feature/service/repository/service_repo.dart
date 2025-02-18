@@ -1,5 +1,4 @@
 import 'package:demandium/api/client_api.dart';
-import 'package:demandium/feature/review/model/review_body.dart';
 import 'package:get/get.dart';
 import 'package:demandium/utils/app_constants.dart';
 
@@ -43,10 +42,6 @@ class ServiceRepo extends GetxService {
   }
   Future<Response> getItemsBasedOnCampaignId({required String campaignID}) async {
     return await apiClient.getData('${AppConstants.itemsBasedOnCampaignId}$campaignID&limit=100&offset=1');
-  }
-
-  Future<Response> submitReview(ReviewBody reviewBody) async {
-    return await apiClient.postData(AppConstants.serviceReview, reviewBody.toJson());
   }
 
   Future<Response> updateIsFavoriteStatus({required String serviceId}) async {

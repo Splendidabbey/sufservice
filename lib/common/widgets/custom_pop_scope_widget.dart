@@ -12,7 +12,7 @@ class CustomPopScopeWidget extends StatelessWidget {
 
     return PopScope(
       canPop:  canPop ?? Navigator.canPop(context),
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, result) {
         if(didPop){
           return;
         }

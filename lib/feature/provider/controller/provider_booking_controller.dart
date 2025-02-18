@@ -29,6 +29,9 @@ class ProviderBookingController extends GetxController implements GetxService {
   List<ProviderData>? _providerList;
   List<ProviderData>? get  providerList=> _providerList;
 
+  List<Review>? _reviewList;
+  List<Review>? get reviewList => _reviewList;
+
   Set<Marker> markers = HashSet<Marker>();
   int selectedProviderIndex = 0;
   AutoScrollController? scrollController;
@@ -111,14 +114,14 @@ class ProviderBookingController extends GetxController implements GetxService {
 
 
 
-  Future<void> getProviderDetailsData(String providerId, bool reload) async {
+  Future<void> getProviderDetailsData(String providerId, bool reload, {int offSet = 1}) async {
 
     if(_providerDetailsContent == null || reload){
       if(reload){
         categoryItemList =[];
         _providerDetailsContent = null;
       }
-      Response response = await providerBookingRepo.getProviderDetails(providerId);
+      Response response = await providerBookingRepo.getProviderDetails(providerId, offSet);
       if (response.statusCode == 200) {
         _providerDetailsContent = ProviderDetails.fromJson(response.body).content;
 
@@ -137,6 +140,17 @@ class ProviderBookingController extends GetxController implements GetxService {
               }
             }
           }
+        }
+
+        if(offSet!=1){
+          _providerDetailsContent?.providerReview?.reviewList?.forEach((element){
+            _reviewList?.add(element);
+          });
+        }else{
+          _reviewList = [];
+          _providerDetailsContent?.providerReview?.reviewList?.forEach((element){
+            _reviewList?.add(element);
+          });
         }
       } else {
         ApiChecker.checkApi(response);
@@ -160,7 +174,7 @@ class ProviderBookingController extends GetxController implements GetxService {
       if(response.body['content']['status'] !=null){
         status  = response.body['content']['status'];
         updateIsFavoriteValue(status,providerId);
-        customSnackBar(response.body['message'], isError: status == 1 ? false : true);
+        customSnackBar(response.body['message'], type: status == 1 ? ToasterMessageType.success : ToasterMessageType.error);
       }
     }
 

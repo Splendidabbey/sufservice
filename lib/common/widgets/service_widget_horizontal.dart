@@ -164,14 +164,18 @@ class ServiceWidgetHorizontal extends StatelessWidget {
                       customSnackBar(
                         "message",
                         customWidget: Row(mainAxisAlignment:  MainAxisAlignment.spaceBetween, children: [
+                          const Icon(Icons.info, color:  Colors.blueAccent, size: 20),
+                          const SizedBox(width: Dimensions.paddingSizeSmall),
+
                           Flexible(
                             child: Text("please_login_to_add_favorite_list".tr,
                               style: ubuntuRegular.copyWith(color: Colors.white),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
+                          const SizedBox(width: Dimensions.paddingSizeSmall),
                           InkWell(
-                            onTap : () => Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main)),
+                            onTap : () => Get.toNamed(RouteHelper.getSignInRoute()),
                             child: Text('sign_in'.tr, style: ubuntuRegular.copyWith(
                               fontSize: Dimensions.fontSizeSmall, color: Colors.white,
                               decoration: TextDecoration.underline,

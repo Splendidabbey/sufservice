@@ -75,9 +75,9 @@ class AuthController extends GetxController implements GetxService {
           });
 
         }else{
-          Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+          Get.toNamed(RouteHelper.getSignInRoute());
         }
-        customSnackBar('registration_200'.tr,isError:false);
+        customSnackBar('registration_200'.tr,type : ToasterMessageType.success);
       }
       else if(response.statusCode == 404 && response.body['response_code']=="referral_code_400"){
         customSnackBar("invalid_refer_code".tr);
@@ -92,7 +92,7 @@ class AuthController extends GetxController implements GetxService {
     update();
   }
 
-  Future<void> login(String fromPage, String emailPhone, String password, String type) async {
+  Future<void> login({String? fromPage, required String emailPhone, required String password, required String type}) async {
       _isLoading = true;
       update();
       Response? response = await authRepo.login(phone: emailPhone, password: password, type: type);
@@ -139,7 +139,7 @@ class AuthController extends GetxController implements GetxService {
     }
   }
 
-  _saveTokenAndNavigate({required String fromPage, required String token, String? emailPhone, String? password}) async {
+  _saveTokenAndNavigate({String? fromPage, required String token, String? emailPhone, String? password}) async {
 
     authRepo.saveUserToken(token);
     await authRepo.updateToken();
@@ -152,8 +152,7 @@ class AuthController extends GetxController implements GetxService {
     } else {
       clearUserNumberAndPassword();
     }
-
-    if( fromPage.contains(RouteHelper.main) || fromPage.contains(RouteHelper.splash) || fromPage.contains("booking")){
+    if( fromPage == null || fromPage == "null"){
       if (Get.find<LocationController>().getUserAddress() != null) {
 
         updateSavedLocalAddress();
@@ -186,6 +185,7 @@ class AuthController extends GetxController implements GetxService {
 
         addressModel.contactPersonNumber = firstName !=null? Get.find<UserController>().userInfoModel?.phone ?? "" : "";
         addressModel.contactPersonName = firstName!=null ? "$firstName${Get.find<UserController>().userInfoModel?.lName ?? "" }" : "";
+        addressModel.addressLabel = 'others';
 
       }
     }else{
@@ -342,7 +342,7 @@ class AuthController extends GetxController implements GetxService {
           Get.back();
         }
         if(e.code == 'invalid-phone-number') {
-          customSnackBar('please_submit_a_valid_phone_number');
+          customSnackBar('please_submit_a_valid_phone_number', type: ToasterMessageType.info);
 
         }else{
           customSnackBar('${e.message}'.replaceAll('_', ' ').capitalizeFirst);
@@ -541,8 +541,8 @@ class AuthController extends GetxController implements GetxService {
     Response? response = await authRepo.resetPassword(identity,identityType, otp, password, confirmPassword);
 
     if (response!.statusCode == 200 && response.body['response_code']=="default_password_reset_200") {
-      Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.main));
-      customSnackBar('password_changed_successfully'.tr,isError: false);
+      Get.offNamed(RouteHelper.getSignInRoute());
+      customSnackBar('password_changed_successfully'.tr,type : ToasterMessageType.success);
     } else {
       ApiChecker.checkApi(response);
     }

@@ -23,7 +23,7 @@ class LoyaltyPointController extends GetxController implements GetxService{
       loyaltyPointController.text='';
      await getLoyaltyPointData(1);
       Get.back();
-      customSnackBar("point_converted_to_wallet_money".tr,isError: false);
+      customSnackBar("point_converted_to_wallet_money".tr,type : ToasterMessageType.success);
     }
     else {
       ApiChecker.checkApi(response);

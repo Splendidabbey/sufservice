@@ -186,9 +186,9 @@ class _PaymentMethodListWidgetState extends State<PaymentMethodListWidget> {
               buttonText: 'add_fund'.tr,
               onPressed: (){
                 if(inputAmountController.text.isEmpty){
-                  customSnackBar('please_provide_transfer_amount'.tr, showDefaultSnackBar: false);
+                  customSnackBar('please_provide_transfer_amount'.tr, showDefaultSnackBar: false, type: ToasterMessageType.info);
                 }else if(walletController.digitalPaymentName == ''){
-                  customSnackBar('please_select_payment_method'.tr,  showDefaultSnackBar: false);
+                  customSnackBar('please_select_payment_method'.tr,  showDefaultSnackBar: false,  type: ToasterMessageType.info);
                 }else{
                   double? amount = double.tryParse(inputAmountController.text.replaceAll(PriceConverter.getCurrency(), ''));
 
@@ -196,10 +196,10 @@ class _PaymentMethodListWidgetState extends State<PaymentMethodListWidget> {
                     Get.back();
                     _addFundToWallet(walletController.digitalPaymentName ?? "", amount );
                   }else if( amount != null && amount <= 0 ){
-                    customSnackBar('amount_must_be_greater_than_zero'.tr,  showDefaultSnackBar: false);
+                    customSnackBar('amount_must_be_greater_than_zero'.tr,  showDefaultSnackBar: false,  type: ToasterMessageType.info);
                   }
                   else{
-                    customSnackBar('please_enter_valid_amount'.tr,  showDefaultSnackBar: false);
+                    customSnackBar('please_enter_valid_amount'.tr,  showDefaultSnackBar: false, type: ToasterMessageType.info);
                   }
 
                 }

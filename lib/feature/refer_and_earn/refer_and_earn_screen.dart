@@ -76,7 +76,7 @@ class _ReferAndEarnScreenState extends State<ReferAndEarnScreen> {
                             GestureDetector(
                               onTap: () {
                                 Clipboard.setData(ClipboardData(text: Get.find<UserController>().userInfoModel?.referCode ??""));
-                                customSnackBar('referral_code_copied'.tr,isError: false);
+                                customSnackBar('referral_code_copied'.tr,type : ToasterMessageType.success);
                               },
                               child: Container(
                                 width: 85,

@@ -29,7 +29,7 @@ class RatingBar extends StatelessWidget {
               ClipRect(
                 clipper: _Clipper(part: partNumber),
                 child: Icon(Icons.star,
-                    color: color ?? Theme.of(context).hintColor,
+                    color: Theme.of(context).hintColor,
                     size: size),
               )
             ],

@@ -43,10 +43,10 @@ class MenuButton extends StatelessWidget {
                 Get.find<AuthController>().signOutWithFacebook();
                 Get.find<LocationController>().updateSelectedAddress(null);
                 Get.offAllNamed(RouteHelper.getInitialRoute());
-                // customSnackBar("logged_out_successfully".tr, isError: false);
+                // customSnackBar("logged_out_successfully".tr, type : ToasterMessageType.success);
               }), useSafeArea: false);
             }else {
-              Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+              Get.toNamed(RouteHelper.getSignInRoute());
             }
           }
           else if(menu.route!.startsWith('http')) {

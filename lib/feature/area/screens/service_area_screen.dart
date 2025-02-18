@@ -13,10 +13,21 @@ class ServiceAreaScreen extends StatefulWidget {
 
 class _ServiceAreaScreenState extends State<ServiceAreaScreen> {
 
+  bool _isInteractingWithMap = false;
+
   @override
   void initState() {
     super.initState();
     Get.find<ServiceAreaController>().getZoneList(reload: false);
+  }
+
+  void _handleInteractingWithMap(bool value) {
+    setState(() {
+      _isInteractingWithMap = value;
+    });
+    if (kDebugMode) {
+      print("Is Moving $value");
+    }
   }
 
   @override
@@ -28,6 +39,7 @@ class _ServiceAreaScreenState extends State<ServiceAreaScreen> {
 
       body: GetBuilder<ServiceAreaController>(builder: (serviceAreaController){
         return FooterBaseView(
+          physics: _isInteractingWithMap ? const NeverScrollableScrollPhysics() : const ClampingScrollPhysics(),
           child: SizedBox( width: Dimensions.webMaxWidth,
             child: Padding( padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
               child: Column( children: [
@@ -44,7 +56,10 @@ class _ServiceAreaScreenState extends State<ServiceAreaScreen> {
                       height: Get.height * 0.6,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
-                        child: AreaMapViewScreen(zoneList: serviceAreaController.zoneList ?? [],),
+                        child: AreaMapViewScreen(
+                          zoneList: serviceAreaController.zoneList ?? [],
+                          onValueChanged: _handleInteractingWithMap,
+                        ),
                       ),
                     ),
                   )) : ResponsiveHelper.isDesktop(context) && serviceAreaController.zoneList == null ?

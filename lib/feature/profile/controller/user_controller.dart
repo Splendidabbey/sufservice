@@ -125,7 +125,7 @@ class UserController extends GetxController implements GetxService {
     Response response = await userRepo.updateProfile(userInfoModel, pickedProfileImageFile);
 
     if (response.body['response_code'] == 'default_update_200') {
-      customSnackBar('${response.body['response_code']}'.tr, isError: false);
+      customSnackBar('${response.body['response_code']}'.tr, type : ToasterMessageType.success);
     }else{
       ApiChecker.checkApi(response);
     }

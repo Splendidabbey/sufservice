@@ -329,7 +329,7 @@ class WebBookingDetailsSection extends StatelessWidget {
                         ),
                       );
                     } else {
-                      customSnackBar('provider_or_service_man_assigned'.tr);
+                      customSnackBar('provider_or_service_man_assigned'.tr, type: ToasterMessageType.info);
                     }
                   },
                   child: Icon(Icons.message_rounded, color: Theme.of(context).primaryColorLight),

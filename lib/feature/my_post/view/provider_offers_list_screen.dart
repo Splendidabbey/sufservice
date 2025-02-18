@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 
 class ProviderOfferListScreen extends StatefulWidget {
   final String? postId;
-  final MyPostData myPostData;
-  final String status;
-  const ProviderOfferListScreen({super.key, this.postId, required this.myPostData, required this.status}) ;
+  final MyPostData? myPostData;
+  final String? status;
+  const ProviderOfferListScreen({super.key, this.postId, this.myPostData,  this.status}) ;
 
   @override
   State<ProviderOfferListScreen> createState() => _ProviderOfferListScreenState();
@@ -28,7 +28,7 @@ class _ProviderOfferListScreenState extends State<ProviderOfferListScreen> {
       endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       body: GetBuilder<CreatePostController>(
         builder: (createPostController){
-        return ExpandableBottomSheet(
+        return widget.postId == null || widget.myPostData == null ?  NoDataScreen(text: "no_data_found".tr, type: NoDataType.bookings,) : ExpandableBottomSheet(
           background: SingleChildScrollView(
             child: Column(crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -71,7 +71,7 @@ class _ProviderOfferListScreenState extends State<ProviderOfferListScreen> {
                 ),
 
                 if(ResponsiveHelper.isDesktop(context))
-                PostDetailsExpandableContent(postData: widget.myPostData,),
+                PostDetailsExpandableContent(postData: widget.myPostData!,),
                 if(ResponsiveHelper.isDesktop(context))
                 const FooterView()
               ],
@@ -80,7 +80,7 @@ class _ProviderOfferListScreenState extends State<ProviderOfferListScreen> {
           persistentContentHeight: 400,
           expandableContent: ResponsiveHelper.isDesktop(context)
               ? const SizedBox()
-              :PostDetailsExpandableContent(postData: widget.myPostData,),
+              :PostDetailsExpandableContent(postData: widget.myPostData!,),
         );
       }),
     );

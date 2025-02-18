@@ -2,9 +2,9 @@ import 'package:demandium/utils/core_export.dart';
 
 class AppConstants {
 
-  static const String appName = 'Suf Service';
-  static const String appVersion = '2.8';
-  static const String baseUrl = 'https://admin.sufservice.com';
+  static const String appName = 'Sufservice';
+  static const String appVersion = '2.9';
+  static const String baseUrl = 'https://sufservice.ukachi.com';
   static const bool avoidMaintenanceMode = false;
   static const String categoryUrl = '/api/v1/customer/category?limit=20';
   static const String webLandingContents = '/api/v1/customer/landing/contents';
@@ -114,8 +114,8 @@ class AppConstants {
   static const String advertisementList = '/api/v1/customer/advertisements/ads-list?limit=50&offset=1';
   static const String registerWithSocialMedia = '/api/v1/customer/auth/registration-with-social-media';
   static const String existingAccountCheck = '/api/v1/customer/auth/existing-account-check';
-
   static const String invoiceUrl = '/admin/booking/customer-invoice/';
+  static const String addError404Url = '/api/v1/customer/error-link';
 
 
 

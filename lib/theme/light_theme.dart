@@ -14,7 +14,7 @@ ThemeData light = ThemeData(
   hintColor: const Color(0xFFA4A4A4),
   focusColor: const Color(0xFFFFF9E5),
   hoverColor: const Color(0xFFF8FAFC),
-  shadowColor: Colors.grey[300],
+  shadowColor:  const Color(0xFFE6E5E5),
   cardColor: Colors.white,
   textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: const Color(
       0xFF036FBE))),

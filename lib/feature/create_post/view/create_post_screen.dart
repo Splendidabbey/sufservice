@@ -270,20 +270,20 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     ConfigModel configModel = Get.find<SplashController>().configModel;
 
     if(schedule == null && scheduleController.selectedScheduleType != ScheduleType.asap) {
-      customSnackBar("select_your_preferable_booking_time".tr);
+      customSnackBar("select_your_preferable_booking_time".tr, type: ToasterMessageType.info);
     }
     else if(scheduleController.selectedScheduleType == ScheduleType.schedule && configModel.content?.scheduleBookingTimeRestriction == 1 && scheduleController.checkValidityOfTimeRestriction(Get.find<SplashController>().configModel.content!.advanceBooking!) != null){
       customSnackBar(scheduleController.checkValidityOfTimeRestriction(Get.find<SplashController>().configModel.content!.advanceBooking!));
     }
     else if(addressModel == null){
-      customSnackBar('add_address_first'.tr);
+      customSnackBar('add_address_first'.tr, type: ToasterMessageType.info);
     } else if((addressModel.contactPersonName == "null" || addressModel.contactPersonName == null || addressModel.contactPersonName!.isEmpty) || (addressModel.contactPersonNumber=="null" || addressModel.contactPersonNumber == null || addressModel.contactPersonNumber!.isEmpty)){
-      customSnackBar("please_input_contact_person_name_and_phone_number".tr);
+      customSnackBar("please_input_contact_person_name_and_phone_number".tr, type: ToasterMessageType.info);
     }
     else if(createPostController.selectedService==null){
-      customSnackBar("select_your_desired_service".tr);
+      customSnackBar("select_your_desired_service".tr, type: ToasterMessageType.info);
     }else if(createPostController.descriptionController.text.isEmpty){
-      customSnackBar("enter_service_description".tr);
+      customSnackBar("enter_service_description".tr, type: ToasterMessageType.info);
     }else{
       if(scheduleController.selectedScheduleType == ScheduleType.asap){
         scheduleController.buildSchedule(scheduleType: ScheduleType.asap);

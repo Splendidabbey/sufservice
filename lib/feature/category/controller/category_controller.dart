@@ -67,7 +67,7 @@ class CategoryController extends GetxController implements GetxService {
   }
 
 
-  Future<void> getSubCategoryList(String categoryID, int? subCategoryIndex, {bool shouldUpdate = true}) async {
+  Future<void> getSubCategoryList(String categoryID, {bool shouldUpdate = true}) async {
     _subCategoryList = null;
     if(shouldUpdate){
       update();
@@ -79,7 +79,6 @@ class CategoryController extends GetxController implements GetxService {
           _subCategoryList!.addIf(CategoryModel.fromJson(category).isActive , CategoryModel.fromJson(category)));
     } else {
       _subCategoryList= [];
-      //ApiChecker.checkApi(response);
     }
     update();
   }
@@ -103,7 +102,7 @@ class CategoryController extends GetxController implements GetxService {
       if(response.statusCode != 200){
         ApiChecker.checkApi(response);
       }else{
-        customSnackBar('campaign_is_not_available_for_this_service'.tr);
+        customSnackBar('campaign_is_not_available_for_this_service'.tr, type: ToasterMessageType.info);
       }
     }
     update();

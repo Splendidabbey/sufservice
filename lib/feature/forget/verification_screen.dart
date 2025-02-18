@@ -77,6 +77,9 @@ class VerificationScreenState extends State<VerificationScreen> {
 
                       Image.asset(Images.otp, width: 140),
                       const SizedBox(height: Dimensions.paddingSizeDefault,),
+                        // Text(
+                        //   'for_demo_purpose'.tr, style: ubuntuRegular,
+                        // ),
 
                       RichText(
                         textAlign: TextAlign.center,
@@ -170,7 +173,7 @@ class VerificationScreenState extends State<VerificationScreen> {
                                 if(status !=null){
                                   if (status.isSuccess!) {
                                     _startTimer();
-                                    customSnackBar('resend_code_successful'.tr, isError: false);
+                                    customSnackBar('resend_code_successful'.tr, type : ToasterMessageType.success);
                                   } else {
                                     customSnackBar(status.message);
                                   }
@@ -197,16 +200,16 @@ class VerificationScreenState extends State<VerificationScreen> {
     if(widget.fromPage == "verification" || widget.fromPage == "profile"){
       authController.verifyOtpForVerificationScreen(identity,identityType,otp).then((status){
         if(status.isSuccess!){
-          customSnackBar(status.message,isError: false);
+          customSnackBar(status.message,type : ToasterMessageType.success);
           if( widget.fromPage == "profile"){
             Get.find<UserController>().getUserInfo(reload: false);
-           if(Navigator.canPop(context)){
-             Navigator.pop(context);
+           if(Navigator.canPop(Get.context!)){
+             Navigator.pop(Get.context!);
            }else{
              Get.toNamed(RouteHelper.getEditProfileRoute());
            }
           }else{
-            Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+            Get.toNamed(RouteHelper.getSignInRoute());
           }
 
         }else{

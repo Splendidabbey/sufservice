@@ -2,19 +2,19 @@ import 'package:get/get.dart';
 import 'package:demandium/utils/core_export.dart';
 
 class UpdateScreen extends StatelessWidget {
-  final bool? isUpdate;
+  final String? fromPage;
 
-  const UpdateScreen({super.key, required this.isUpdate});
+  const UpdateScreen({super.key,this.fromPage});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: fromPage == null ? const NotFoundScreen() : Center(
         child: Padding(
           padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Image.asset(
-              isUpdate! ? Images.update : Images.maintenance,
+              fromPage == "update" ? Images.update : Images.maintenance,
               width: Dimensions.logoSize,
               height: MediaQuery
                   .of(context)
@@ -23,7 +23,7 @@ class UpdateScreen extends StatelessWidget {
             ),
 
             Text(
-              isUpdate! ? 'update_is_available'.tr : 'we_are_under_maintenance'.tr,
+              fromPage == "update"  ? 'update_is_available'.tr : 'we_are_under_maintenance'.tr,
               style: ubuntuBold.copyWith(fontSize: MediaQuery
                   .of(context)
                   .size
@@ -37,7 +37,7 @@ class UpdateScreen extends StatelessWidget {
                 .height * 0.02),
 
             Text(
-              isUpdate! ? 'your_app_needs_to_update'.tr : 'we_will_be_right_back'
+              fromPage == "update"  ? 'your_app_needs_to_update'.tr : 'we_will_be_right_back'
                   .tr,
               style: ubuntuRegular.copyWith(fontSize: MediaQuery
                   .of(context)
@@ -47,12 +47,12 @@ class UpdateScreen extends StatelessWidget {
                   .disabledColor),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: isUpdate! ? MediaQuery
+            SizedBox(height:fromPage == "update"  ? MediaQuery
                 .of(context)
                 .size
                 .height * 0.03 : 0),
 
-            isUpdate! ? CustomButton(
+            fromPage == "update"  ? CustomButton(
                 buttonText: 'update_now'.tr, onPressed: () async {
               String appUrl = 'https://google.com';
               if (GetPlatform.isAndroid) {

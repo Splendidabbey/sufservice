@@ -2,10 +2,10 @@ import 'package:get/get.dart';
 import 'package:demandium/utils/core_export.dart';
 
 class CategoryScreen extends StatefulWidget {
-   final String fromPage;
-   final String campaignID;
+   final String? fromPage;
+   final String? campaignID;
 
-  const CategoryScreen({super.key, required this.fromPage, required this.campaignID}) ;
+  const CategoryScreen({super.key,this.fromPage,this.campaignID}) ;
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
@@ -25,7 +25,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               child: widget.fromPage == 'fromCampaign' ?
               GetBuilder<CategoryController>(
                 initState: (state){
-                  Get.find<CategoryController>().getCampaignBasedCategoryList(widget.campaignID,false);
+                  Get.find<CategoryController>().getCampaignBasedCategoryList(widget.campaignID ?? "" ,false);
                 },
                   builder: (categoryController) {
                     return _buildBody(categoryController.campaignBasedCategoryList);
@@ -64,7 +64,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       childAspectRatio: (1 / 1),
                       mainAxisSpacing: Dimensions.paddingSizeSmall,
                       crossAxisSpacing: Dimensions.paddingSizeSmall,
-                      mainAxisExtent: 120,
                     ),
                     padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                     itemCount: categoryList.length,
@@ -72,7 +71,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       return InkWell(
                         onTap: () {
                           if(widget.fromPage == 'fromCampaign'){
-                            Get.find<CategoryController>().getSubCategoryList(categoryList[index].id!,index); //banner id is category here
+                            Get.find<CategoryController>().getSubCategoryList(categoryList[index].id!); //banner id is category here
                             Get.toNamed(RouteHelper.subCategoryScreenRoute(categoryList[index].name!,categoryList[index].id!,index));
                           }else{
                             Get.toNamed(RouteHelper.getCategoryProductRoute(categoryList[index].id!, categoryList[index].name!,index.toString()));

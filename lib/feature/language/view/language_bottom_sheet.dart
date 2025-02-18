@@ -88,7 +88,7 @@ class ChooseLanguageBottomSheet extends StatelessWidget {
                             Get.back();
                             Get.offAllNamed(RouteHelper.getMainRoute('home'));
                           }else {
-                            customSnackBar('select_a_language'.tr);
+                            customSnackBar('select_a_language'.tr, type: ToasterMessageType.info);
                           }
                         },
                       );

@@ -41,7 +41,8 @@ class ProviderItemView extends StatelessWidget {
 
                     ClipRRect(borderRadius: BorderRadius.circular(Dimensions.radiusExtraMoreLarge),
                       child: CustomImage(height: 65, width: 65, fit: BoxFit.cover,
-                          image: providerData.logoFullPath ?? "" ),
+                        image: providerData.logoFullPath ?? "" , placeholder: Images.userPlaceHolder,
+                      ),
                     ),
 
                     const SizedBox(width: Dimensions.paddingSizeSmall),
@@ -96,7 +97,7 @@ class ProviderItemView extends StatelessWidget {
               ),
 
               Positioned.fill(child: RippleButton(onTap: () {
-                Get.toNamed(RouteHelper.getProviderDetails(providerData.id!,subcategories));
+                Get.toNamed(RouteHelper.getProviderDetails(providerData.id!));
               })),
 
               Align(
@@ -111,14 +112,21 @@ class ProviderItemView extends StatelessWidget {
                       customSnackBar(
                         "message",
                         customWidget: Row(mainAxisAlignment:  MainAxisAlignment.spaceBetween, children: [
+
+                          const Icon(Icons.info, color:  Colors.blueAccent, size: 20),
+                          const SizedBox(width: Dimensions.paddingSizeSmall),
+
                           Flexible(
                             child: Text("please_login_to_add_favorite_list".tr,
                               style: ubuntuRegular.copyWith(color: Colors.white),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
+
+                          const SizedBox(width: Dimensions.paddingSizeSmall),
+
                           InkWell(
-                            onTap : () => Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main)),
+                            onTap : () => Get.toNamed(RouteHelper.getSignInRoute()),
                             child: Text('sign_in'.tr, style: ubuntuRegular.copyWith(
                               fontSize: Dimensions.fontSizeSmall, color: Colors.white,
                               decoration: TextDecoration.underline,

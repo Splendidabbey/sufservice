@@ -102,7 +102,7 @@ class ServiceController extends GetxController implements GetxService {
         ApiChecker.checkApi(response);
       }
 
-      if(_allService !=null && _allService!.isNotEmpty && offset == 1 && (Get.currentRoute.contains(RouteHelper.main) || Get.currentRoute.contains("/?page=home"))){
+      if(_allService !=null && _allService!.isNotEmpty && offset == 1 && (Get.currentRoute.contains(RouteHelper.home) || Get.currentRoute.contains("/?page=home"))){
 
         if(Get.find<UserController>().showReferWelcomeDialog() && Get.find<AuthController>().getIsShowReferralBottomSheet() == true){
           Future.delayed(const Duration(microseconds: 500), () {
@@ -276,7 +276,7 @@ class ServiceController extends GetxController implements GetxService {
       if(response.body['content']['status'] !=null){
         status  = response.body['content']['status'];
 
-        customSnackBar(response.body['message'], isError: status==1? false : true);
+        customSnackBar(response.body['message'],type: status == 1 ? ToasterMessageType.success : ToasterMessageType.error);
         updateIsFavoriteValue(status, serviceId);
       }
     }

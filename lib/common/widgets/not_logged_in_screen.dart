@@ -34,7 +34,7 @@ class NotLoggedInScreen extends StatelessWidget {
               SizedBox(height: MediaQuery.of(context).size.height*0.04),
               SizedBox(width: 200,
                 child: CustomButton(buttonText: 'login_to_continue'.tr, height: 40, onPressed: () {
-                  Get.toNamed(RouteHelper.getSignInRoute(fromPage));
+                  Get.toNamed(RouteHelper.getSignInRoute(fromPage : fromPage));
                 }),
               ),
 

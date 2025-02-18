@@ -224,7 +224,7 @@ class _CustomPostCheckoutScreenState extends State<CustomPostCheckoutScreen> {
    if(Get.find<CheckOutController>().acceptTerms){
 
      if((addressModel?.contactPersonName == "null" || addressModel?.contactPersonName == null || addressModel!.contactPersonName!.isEmpty) || (addressModel.contactPersonNumber=="null" || addressModel.contactPersonNumber == null || addressModel.contactPersonNumber!.isEmpty)){
-        customSnackBar("please_input_contact_person_name_and_phone_number".tr);
+        customSnackBar("please_input_contact_person_name_and_phone_number".tr, type: ToasterMessageType.info);
       }
       else if( !isPartialPayment && cartController.walletPaymentStatus){
 
@@ -244,7 +244,7 @@ class _CustomPostCheckoutScreenState extends State<CustomPostCheckoutScreen> {
         }
       }
       else if(checkoutController.selectedPaymentMethod == PaymentMethodName.none){
-        customSnackBar("select_payment_method".tr);
+        customSnackBar("select_payment_method".tr, type: ToasterMessageType.info);
       }
 
       else if(checkoutController.selectedPaymentMethod == PaymentMethodName.cos) {
@@ -305,13 +305,13 @@ class _CustomPostCheckoutScreenState extends State<CustomPostCheckoutScreen> {
 
         }
         else{
-          customSnackBar("provide_offline_payment_info".tr);
+          customSnackBar("provide_offline_payment_info".tr, type: ToasterMessageType.info);
         }
 
       }
       else  if( checkoutController.selectedPaymentMethod == PaymentMethodName.digitalPayment){
         if(checkoutController.selectedDigitalPaymentMethod == null && checkoutController.selectedDigitalPaymentMethod?.gateway == "offline" ){
-          customSnackBar('select_any_payment_method'.tr);
+          customSnackBar('select_any_payment_method'.tr, type: ToasterMessageType.info);
         }
         else{
 
@@ -342,7 +342,7 @@ class _CustomPostCheckoutScreenState extends State<CustomPostCheckoutScreen> {
         }
       }
     }else{
-      customSnackBar('please_agree_with_terms_conditions'.tr);
+      customSnackBar('please_agree_with_terms_conditions'.tr, type: ToasterMessageType.info);
     }
   }
 }

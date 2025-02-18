@@ -17,6 +17,7 @@ class LocationSearchDialog extends StatelessWidget {
         child: GetBuilder<LocationController>(builder: (locationController){
           return SizedBox(width: Dimensions.webMaxWidth-30, child: TypeAheadField(
             suggestionsCallback: (pattern) async => await Get.find<LocationController>().searchLocation(context, pattern),
+            hideOnEmpty: true,
             builder: (context, controller, focusNode) {
               return TextField(
                 controller: controller,

@@ -1,4 +1,5 @@
 import 'package:demandium/utils/core_export.dart';
+import 'package:get/get.dart';
 
 class CustomButton extends StatelessWidget {
   final Function()? onPressed;
@@ -48,7 +49,7 @@ class CustomButton extends StatelessWidget {
             )
                 : const SizedBox(),
 
-            Text(buttonText ??'',
+            Text(isLoading ? "loading".tr : buttonText ??'',
               textAlign: TextAlign.center,
               style: ubuntuMedium.copyWith(
                 color: transparent! ? Theme.of(context).colorScheme.primary : textColor ?? Colors.white,

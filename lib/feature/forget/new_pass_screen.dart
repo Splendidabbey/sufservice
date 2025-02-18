@@ -63,7 +63,7 @@ class _NewPassScreenState extends State<NewPassScreen> {
                 Text("url_session_expired".tr),
                 const SizedBox(height: Dimensions.paddingSizeLarge,),
                 CustomButton( width: 200 , buttonText: "go_back".tr,
-                  onPressed: (){Get.offAllNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+                  onPressed: (){Get.offAllNamed(RouteHelper.getSignInRoute());
                   },
                 )
               ],) : Form(key: newPassKey, child: Column(children: [

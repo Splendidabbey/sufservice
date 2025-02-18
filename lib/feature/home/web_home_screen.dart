@@ -13,7 +13,6 @@ class WebHomeScreen extends StatelessWidget {
 
     Get.find<BannerController>().setCurrentIndex(0, false);
 
-
     return CustomScrollView(
       controller: scrollController,
       physics: const AlwaysScrollableScrollPhysics(

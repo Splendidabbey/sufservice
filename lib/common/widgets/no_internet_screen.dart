@@ -30,14 +30,14 @@ class NoInternetScreen extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 40),
               child: CustomButton(
                 onPressed: () async {
-                  if(await Connectivity().checkConnectivity() != ConnectivityResult.none) {
+                  List<ConnectivityResult> result = await Connectivity().checkConnectivity();
+                  if( result.first != ConnectivityResult.none) {
                     Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (_) => child!));
                   }
                 },
                 buttonText: 'retry'.tr,
               ),
             ),
-
           ],
         ),
       ),

@@ -9,12 +9,11 @@ class ServiceShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: ResponsiveHelper.isDesktop(context) ? const EdgeInsets.symmetric(horizontal : Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeLarge)
-          : const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+      padding:  const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-        boxShadow: Get.isDarkMode ? null : [BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
+        boxShadow:  Get.find<ThemeController>().darkTheme ? null : cardShadow,
       ),
       margin: const EdgeInsets.only(top: 5),
       child: Shimmer(
@@ -34,11 +33,29 @@ class ServiceShimmer extends StatelessWidget {
               ),
             ),
             const SizedBox(height: Dimensions.paddingSizeSmall,),
-            Container(height: 15, width: double.maxFinite, color:  Theme.of(context).shadowColor),
+            Container(height: 15, width: double.maxFinite,
+              decoration: BoxDecoration(
+                color:  Theme.of(context).shadowColor,
+                borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+              ),
+            ),
+            const SizedBox(height: Dimensions.paddingSizeSmall),
+            Container(
+              height:  10, width: double.maxFinite,
+              decoration: BoxDecoration(
+                color:  Theme.of(context).shadowColor,
+                borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+              ),
+              margin: const EdgeInsets.only(right: Dimensions.paddingSizeLarge),
+            ),
             const SizedBox(height: Dimensions.paddingSizeExtraSmall),
             Container(
-              height:  10, width: double.maxFinite, color:  Theme.of(context).shadowColor,
-              margin: const EdgeInsets.only(right: Dimensions.paddingSizeLarge),
+              height:  10, width: double.maxFinite,
+              decoration: BoxDecoration(
+                color:  Theme.of(context).shadowColor,
+                borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+              ),
+              margin: const EdgeInsets.only(right: Dimensions.paddingSizeLarge * 2),
             ),
             const SizedBox(height: Dimensions.paddingSizeExtraSmall),
             const SizedBox(height: Dimensions.paddingSizeExtraSmall),

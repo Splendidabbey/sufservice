@@ -59,7 +59,7 @@ class CreatePostController extends GetxController implements GetxService{
     if(response.statusCode==200){
       resetCreatePostValue();
       Get.offNamed(RouteHelper.getCreatePostSuccessfullyScreen());
-      customSnackBar("your_post_has_been_created_successfully".tr,isError: false);
+      customSnackBar("your_post_has_been_created_successfully".tr,type : ToasterMessageType.success);
     }else{
       customSnackBar( response.body['message'] ?? response.statusText);
     }

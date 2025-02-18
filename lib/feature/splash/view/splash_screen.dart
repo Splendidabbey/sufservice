@@ -12,18 +12,18 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreen> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey();
-  late StreamSubscription<ConnectivityResult> _onConnectivityChanged;
+  StreamSubscription<List<ConnectivityResult>>? _onConnectivityChanged;
 
   @override
   void initState() {
     super.initState();
 
     bool firstTime = true;
-    _onConnectivityChanged = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+    _onConnectivityChanged = Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> result) {
       if(!firstTime) {
-        bool isNotConnected = result != ConnectivityResult.wifi && result != ConnectivityResult.mobile;
-        isNotConnected ? const SizedBox() : ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        bool isNotConnected = result.first != ConnectivityResult.wifi && result.first != ConnectivityResult.mobile;
+        isNotConnected ? const SizedBox() : ScaffoldMessenger.of(Get.context!).hideCurrentSnackBar();
+        ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           backgroundColor: isNotConnected ? Colors.red : Colors.green,
           duration: Duration(seconds: isNotConnected ? 6000 : 3),
           content: Text(
@@ -51,7 +51,7 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   void dispose() {
     super.dispose();
-    _onConnectivityChanged.cancel();
+    _onConnectivityChanged?.cancel();
   }
 
   void _route() {
@@ -69,7 +69,7 @@ class SplashScreenState extends State<SplashScreen> {
         Timer(const Duration(seconds: 1), () async {
 
           if(_checkAvailableUpdate()) {
-            Get.offNamed(RouteHelper.getUpdateRoute(true));
+            Get.offNamed(RouteHelper.getUpdateRoute('update'));
           }
           else if(_checkMaintenanceModeActive() && !AppConstants.avoidMaintenanceMode){
             Get.offAllNamed(RouteHelper.getMaintenanceRoute());

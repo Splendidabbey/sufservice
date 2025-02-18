@@ -23,7 +23,7 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
         InkWell( onTap: (){
           _closeSearchDialog();
           Get.find<AllSearchController>().clearSearchController();
-          Get.toNamed(RouteHelper.getInitialRoute(fromPage: 'appbar'));
+          Get.toNamed(RouteHelper.getInitialRoute());
         },
           child: Image.asset(Images.webAppbarLogo,width: 150),
         ),
@@ -109,7 +109,7 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
           Get.find<AllSearchController>().clearSearchController();
           _checkRouteNavigation().then((isNavigate){
             if(isNavigate){
-              Get.toNamed(RouteHelper.getOffersRoute('offer'));
+              Get.toNamed(RouteHelper.getOffersRoute());
             }
           });
         }),
@@ -136,7 +136,6 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
           key: signInShakeKey,
           shakeCount: 2,
           shakeOffset: 5,
-          shakeDuration: const Duration(milliseconds: 500),
           child: GetBuilder<AuthController>(builder: (authController){
             return InkWell( onTap: () {
               _closeSearchDialog();
@@ -144,7 +143,7 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
               if(authController.isLoggedIn()){
                 Get.toNamed(RouteHelper.getBookingScreenRoute(true));
               }else{
-                Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+                Get.toNamed(RouteHelper.getSignInRoute());
               }},
               child: Container(padding: const EdgeInsets.symmetric( horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeSmall-2),
                 decoration: BoxDecoration( color: Theme.of(context).colorScheme.primary, borderRadius: BorderRadius.circular(Dimensions.radiusSmall),),
@@ -170,7 +169,7 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
 
   Future<bool> _checkRouteNavigation() async {
     if(Get.find<LocationController>().getUserAddress() == null){
-      customSnackBar("pick_an_address".tr);
+      customSnackBar("pick_an_address".tr, type: ToasterMessageType.info);
       Future.delayed(const Duration(seconds: 1), (){
         searchbarShakeKey?.currentState?.shake();
       });

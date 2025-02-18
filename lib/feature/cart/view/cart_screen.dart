@@ -28,7 +28,7 @@ class _CartScreenState extends State<CartScreen> {
             useRootNavigator: true,
             isScrollControlled: true,
             backgroundColor: Colors.transparent,
-            context: context, builder: (context) =>  AvailableProviderWidget(
+            context: Get.context!, builder: (context) =>  AvailableProviderWidget(
             subcategoryId:Get.find<CartController>().cartList.first.subCategoryId,
             showUnavailableError: true,
           ),);

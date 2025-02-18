@@ -30,7 +30,7 @@ class SplashController extends GetxController implements GetxService {
           && _configModel?.content?.maintenanceMode?.selectedMaintenanceSystem?.mobileApp == 1 && !kIsWeb && !AppConstants.avoidMaintenanceMode ){
         Get.offAllNamed(RouteHelper.getMaintenanceRoute());
       }
-      else if((Get.currentRoute.contains(RouteHelper.maintenanceRoute) &&
+      else if((Get.currentRoute.contains(RouteHelper.maintenance) &&
           (_configModel?.content?.maintenanceMode?.maintenanceStatus == 0 ||
               (_configModel?.content?.maintenanceMode?.selectedMaintenanceSystem?.mobileApp == 0 && !kIsWeb)))) {
         Get.offAllNamed(RouteHelper.getInitialRoute());
@@ -145,6 +145,13 @@ class SplashController extends GetxController implements GetxService {
       }
     }
 
+  }
+
+  Future<void> addError404UrlToServer(String url) async {
+    Response response = await splashRepo.addError404UrlToServer(url);
+    if (kDebugMode) {
+      print("Error Url Add Response Status : ${response.statusCode}");
+    }
   }
 
 }

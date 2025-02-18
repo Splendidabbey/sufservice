@@ -30,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       if(!Get.find<AuthController>().isLoggedIn() )
       ProfileCardItemModel(
-        'sign_in'.tr, Images.logout, RouteHelper.getSignInRoute(RouteHelper.profile),
+        'sign_in'.tr, Images.logout, RouteHelper.getSignInRoute( fromPage : RouteHelper.profile),
       ),
 
 
@@ -108,7 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   Get.offAllNamed(RouteHelper.getInitialRoute());
                                 }), useSafeArea: false);
                               }else {
-                                Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+                                Get.toNamed(RouteHelper.getSignInRoute());
                               }
                             }else if(profileCartModelList[index].routeName == 'delete_account'){
                               Get.dialog(

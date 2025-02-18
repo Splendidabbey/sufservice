@@ -3,9 +3,8 @@ import 'package:demandium/utils/core_export.dart';
 
 class CategorySubCategoryScreen extends StatefulWidget {
   final String categoryID;
-  final String categoryName;
-  final String subCategoryIndex;
-   const CategorySubCategoryScreen({super.key, required this.categoryID, required this.categoryName, required this.subCategoryIndex}) ;
+  final String categoryIndex;
+   const CategorySubCategoryScreen({super.key, required this.categoryID, required this.categoryIndex}) ;
 
   @override
   State<CategorySubCategoryScreen> createState() => _CategorySubCategoryScreenState();
@@ -13,7 +12,7 @@ class CategorySubCategoryScreen extends StatefulWidget {
 
 class _CategorySubCategoryScreenState extends State<CategorySubCategoryScreen> {
   AutoScrollController? scrollController;
-  String? subCategoryIndex;
+  String? categoryIndex;
   int availableServiceCount = 0;
 
   @override
@@ -22,20 +21,16 @@ class _CategorySubCategoryScreenState extends State<CategorySubCategoryScreen> {
       viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
       axis: Axis.horizontal,
     );
-    scrollController!.scrollToIndex(int.tryParse(widget.subCategoryIndex) ?? 0, preferPosition: AutoScrollPosition.middle);
-    scrollController!.highlight(int.tryParse(widget.subCategoryIndex) ?? 0);
+    scrollController!.scrollToIndex(int.tryParse(widget.categoryIndex) ?? 0, preferPosition: AutoScrollPosition.middle);
+    scrollController!.highlight(int.tryParse(widget.categoryIndex) ?? 0);
 
     if(Get.find<LocationController>().getUserAddress() !=null){
       availableServiceCount = Get.find<LocationController>().getUserAddress()!.availableServiceCountInZone!;
     }
 
     Get.find<CategoryController>().getCategoryList(1,false);
-    subCategoryIndex = widget.subCategoryIndex;
-    Get.find<CategoryController>().getSubCategoryList(
-      widget.categoryID,
-      int.parse(widget.subCategoryIndex),
-      shouldUpdate: false
-    );
+    categoryIndex = widget.categoryIndex ;
+    Get.find<CategoryController>().getSubCategoryList(widget.categoryID, shouldUpdate: false);
 
     super.initState();
   }
@@ -83,8 +78,8 @@ class _CategorySubCategoryScreenState extends State<CategorySubCategoryScreen> {
                               index: index,
                               child: InkWell(
                                 onTap: () async {
-                                  subCategoryIndex = index.toString();
-                                  Get.find<CategoryController>().getSubCategoryList(categoryModel.id!, index);
+                                  categoryIndex = index.toString();
+                                  Get.find<CategoryController>().getSubCategoryList(categoryModel.id!);
                                   await scrollController!.scrollToIndex( index, preferPosition: AutoScrollPosition.middle,
                                     duration: const Duration(milliseconds: 500)
                                   );
@@ -96,7 +91,7 @@ class _CategorySubCategoryScreenState extends State<CategorySubCategoryScreen> {
 
                                   margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
                                   decoration: BoxDecoration(
-                                    color: index != int.parse(subCategoryIndex!) ? Theme.of(context).primaryColorLight : Theme.of(context).colorScheme.primary,
+                                    color: index != int.parse(categoryIndex!) ? Theme.of(context).primaryColorLight : Theme.of(context).colorScheme.primary,
                                     borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusDefault), ),
                                   ),
                                   child: Column(
@@ -118,7 +113,7 @@ class _CategorySubCategoryScreenState extends State<CategorySubCategoryScreen> {
                                           child: Text(categoryController.categoryList![index].name!,
                                             style: ubuntuRegular.copyWith(
                                                 fontSize: Dimensions.fontSizeSmall,
-                                                color:index==int.parse(subCategoryIndex!)? Colors.white:Colors.black
+                                                color:index==int.parse(categoryIndex!)? Colors.white:Colors.black
                                             ),
                                             maxLines: 2,textAlign: TextAlign.center, overflow: TextOverflow.ellipsis,
                                           ),
@@ -131,10 +126,7 @@ class _CategorySubCategoryScreenState extends State<CategorySubCategoryScreen> {
                         ),
                       ),
                     ) : ResponsiveHelper.isDesktop(context)?
-                    CategoryShimmer(
-                      categoryController: categoryController,
-                      fromHomeScreen: false,
-                    ):const SizedBox(),
+                    const CategoryShimmer(fromHomeScreen: false,):const SizedBox(),
                   ),
                   SliverToBoxAdapter(
                     child: SizedBox(width: Dimensions.webMaxWidth,

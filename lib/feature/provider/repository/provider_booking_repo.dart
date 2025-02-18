@@ -15,8 +15,8 @@ class ProviderBookingRepo {
     return await apiClient.postData("${AppConstants.getProviderList}?limit=$limit&offset=$offset",body);
   }
 
-  Future<Response> getProviderDetails(String providerId) async {
-    return await apiClient.getData("${AppConstants.getProviderDetails}?id=$providerId");
+  Future<Response> getProviderDetails(String providerId, int offset) async {
+    return await apiClient.getData("${AppConstants.getProviderDetails}?id=$providerId&limit=10&offset=$offset");
   }
 
   Future<Response> updateIsFavoriteStatus({required String serviceId}) async {

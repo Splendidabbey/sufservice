@@ -46,7 +46,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
               exit(0);
             }
           } else {
-            customSnackBar('back_press_again_to_exit'.tr, isError: false);
+            customSnackBar('back_press_again_to_exit'.tr, type : ToasterMessageType.info);
             _canExit = true;
             Timer(const Duration(seconds: 2), () {
               _canExit = false;
@@ -107,8 +107,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                 icon: '', bnbItem: BnbItem.cart, context: context,
                 onTap: () {
                   if (!isUserLoggedIn) {
-                    Get.toNamed(
-                        RouteHelper.getSignInRoute(RouteHelper.main));
+                    Get.toNamed(RouteHelper.getSignInRoute(fromPage: RouteHelper.home));
                   } else {
                     Get.find<BottomNavController>().changePage(BnbItem.cart);
                   }

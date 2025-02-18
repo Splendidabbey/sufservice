@@ -101,4 +101,11 @@ class SplashRepo {
     return response;
   }
 
+  Future<Response> addError404UrlToServer(String url) async {
+    Response response = await apiClient.postData(AppConstants.addError404Url, {
+      "url" : url
+    });
+    return response;
+  }
+
 }

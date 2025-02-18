@@ -2,9 +2,9 @@ import 'package:get/get.dart';
 import 'package:demandium/utils/core_export.dart';
 
 class AllServiceView extends StatefulWidget {
-  final String fromPage;
-  final String campaignID;
-  const AllServiceView({super.key, required this.fromPage,required this.campaignID});
+  final String?fromPage;
+  final String? campaignID;
+  const AllServiceView({super.key, this.fromPage, this.campaignID});
 
   @override
   State<AllServiceView> createState() => _AllServiceViewState();
@@ -47,7 +47,7 @@ class _AllServiceViewState extends State<AllServiceView> {
     );
   }
 
-  Widget _buildBody(String fromPage,BuildContext context,ScrollController scrollController){
+  Widget _buildBody(String? fromPage,BuildContext context,ScrollController scrollController){
     if(fromPage == 'popular_services') {
       return GetBuilder<ServiceController>(
         initState: (state){
@@ -195,9 +195,8 @@ class _AllServiceViewState extends State<AllServiceView> {
     else if(fromPage == 'fromCampaign') {
       return GetBuilder<ServiceController>(
         initState: (state){
-
           Get.find<ServiceController>().getEmptyCampaignService();
-          Get.find<ServiceController>().getCampaignBasedServiceList(widget.campaignID,true);
+          Get.find<ServiceController>().getCampaignBasedServiceList(widget.campaignID ?? "",true);
         },
         builder: (serviceController){
           return _buildWidget(serviceController.campaignBasedServiceList,context);
@@ -252,7 +251,7 @@ class _AllServiceViewState extends State<AllServiceView> {
         },
       );
     }
-    else if(fromPage == 'all_service'){
+    else if(fromPage == 'all_service' || fromPage == null ){
       return GetBuilder<ServiceController>(
           initState: (state){
             Get.find<ServiceController>().getAllServiceList(1, false);
@@ -333,7 +332,7 @@ class _AllServiceViewState extends State<AllServiceView> {
                 ),
                 delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                    return ServiceWidgetVertical(service: serviceList[index],fromType: widget.fromPage,);
+                    return ServiceWidgetVertical(service: serviceList[index],fromType: widget.fromPage ?? "" ,);
                   },
                   childCount: serviceList.length,
                 ),

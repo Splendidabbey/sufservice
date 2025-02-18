@@ -8,7 +8,7 @@ firebase.initializeApp({
     storageBucket: "suf-service.appspot.com",
     messagingSenderId: "310898099435",
     appId: "1:310898099435:web:a1cac6357a793a0e82aaae",
-    measurementId: "G-1KY06ZMQSH"
+    measurementId: "G-1KY06ZMQSH",
     databaseURL: "...",
 });
 

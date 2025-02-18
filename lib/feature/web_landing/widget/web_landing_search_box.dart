@@ -174,7 +174,6 @@ class _WebLandingSearchSectionState extends State<WebLandingSearchSection> {
                       child: CustomShakingWidget(
                         key: widget.shakeKey,
                         shakeOffset: 5,
-                        shakeDuration: const Duration(milliseconds: 500),
                         child: Directionality(
                           textDirection: TextDirection.ltr,
                           child: Row(
@@ -270,6 +269,7 @@ class _WebLandingSearchSectionState extends State<WebLandingSearchSection> {
                                           });
                                           _address = await Get.find<LocationController>().setLocation(suggestion.placeId!, suggestion.description!, null) ;
                                         },
+                                        hideOnEmpty: true,
                                       ),),
                                       InkWell(
                                         onTap: ()async{
@@ -288,10 +288,10 @@ class _WebLandingSearchSectionState extends State<WebLandingSearchSection> {
                                               );
                                             }else {
                                               Get.back();
-                                              customSnackBar('service_not_available_in_current_location'.tr);
+                                              customSnackBar('service_not_available_in_current_location'.tr, type: ToasterMessageType.info);
                                             }}
                                           else {
-                                            customSnackBar('pick_an_address'.tr);
+                                            customSnackBar('pick_an_address'.tr, type: ToasterMessageType.info);
                                             widget.shakeKey?.currentState?.shake();
                                           }
                                         },
@@ -320,7 +320,7 @@ class _WebLandingSearchSectionState extends State<WebLandingSearchSection> {
                                             widget.route == null ? widget.fromSignUp! ? RouteHelper.signUp : RouteHelper.accessLocation : widget.route!,
                                             widget.route != null,
                                             'false', null, null,
-                                        ),),
+                                        )),
                                       ),
                                       const SizedBox(width: Dimensions.paddingSizeDefault,),
                                     ],
@@ -350,7 +350,7 @@ class _WebLandingSearchSectionState extends State<WebLandingSearchSection> {
       permission = await Geolocator.requestPermission();
     }
     if(permission == LocationPermission.denied) {
-      customSnackBar('you_have_to_allow'.tr);
+      customSnackBar('you_have_to_allow'.tr, type: ToasterMessageType.info);
     }else if(permission == LocationPermission.deniedForever) {
       Get.dialog(const PermissionDialog());
     }else {

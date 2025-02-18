@@ -7,29 +7,28 @@ class RouteHelper {
 
   static const String initial = '/';
   static const String splash = '/splash';
-  static const String language = '/language';
+  static const String home = '/home';
   static const String offers = '/offers';
   static const String signIn = '/sign-in';
   static const String signUp = '/sign-up';
   static const String accessLocation = '/access-location';
   static const String pickMap = '/pick-map';
-  static const String main = '/main';
   static const String verification = '/verification';
   static const String sendOtpScreen = '/send-otp';
   static const String changePassword = '/change-password';
   static const String searchScreen = '/search';
-  static const String service = '/service';
+  static const String serviceDetails = '/service-details';
   static const String profile = '/profile';
   static const String profileEdit = '/profile-edit';
   static const String notification = '/notification';
   static const String address = '/address';
   static const String orderSuccess = '/order-completed';
   static const String checkout = '/checkout';
-  static const String customPostCheckout = '/custom-post-checkout';
+  static const String customPostCheckout = '/custom-checkout';
   static const String html = '/html';
   static const String categories = '/categories';
-  static const String categoryProduct = '/category-product';
-  static const String support = '/help-and-support';
+  static const String categoryProduct = '/category';
+  static const String support = '/support';
   static const String update = '/update';
   static const String cart = '/cart';
   static const String addAddress = '/add-address';
@@ -38,13 +37,13 @@ class RouteHelper {
   static const String chatInbox = '/chat-inbox';
   static const String onBoardScreen = '/onBoardScreen';
   static const String settingScreen = '/settingScreen';
-  static const String languageScreen = '/language-screen';
-  static const String voucherScreen = '/voucherScreen';
-  static const String bookingListScreen = '/booking-list-Screen';
+  static const String languageScreen = '/language';
+  static const String voucherScreen = '/voucher';
+  static const String bookingListScreen = '/booking-list';
   static const String bookingDetailsScreen = '/booking-details';
   static const String trackBooking = '/track-booking';
   static const String rateReviewScreen = '/rate-review-screen';
-  static const String allServiceScreen = '/all-service-screen';
+  static const String allServiceScreen = '/service';
   static const String featheredServiceScreen = '/feathered-service-screen';
   static const String subCategoryScreen = '/subcategory-screen';
   static const String notLoggedScreen = '/not-logged-screen';
@@ -66,15 +65,15 @@ class RouteHelper {
   static const String serviceArea = '/service-area';
   static const String serviceAreaMap = '/service-area-map';
   static const String customImageListScreen = '/custom-image-list-screen';
-  static const String zoomImageScreen = '/zoom-image';
-  static const String myFavorite = '/my-favorite';
-  static const String nearByProviderScreen = '/nearby-provider';
-  static const String maintenanceRoute = '/maintenance';
+  static const String zoomImage = '/zoom-image';
+  static const String favorite = '/favorite';
+  static const String nearByProvider = '/nearby-provider';
+  static const String maintenance = '/maintenance';
   static const String updateProfile = '/update-profile';
 
 
 
-  static String getInitialRoute({String fromPage = "home"}) => '$initial?page=$fromPage';
+  static String getInitialRoute() => initial;
   static String getSplashRoute(NotificationBody? body, String? route) {
     String data = 'null';
     if(body != null) {
@@ -83,9 +82,8 @@ class RouteHelper {
     }
     return '$splash?data=$data&route=$route';
   }
-  static String getLanguageRoute(String page) => '$language?page=$page';
-  static String getOffersRoute(String page) => '$offers?page=$page';
-  static String getSignInRoute(String page) => '$signIn?page=$page';
+  static String getOffersRoute() => offers;
+  static String getSignInRoute({String? fromPage}) => '$signIn?page=$fromPage';
   static String getSignUpRoute() => signUp;
   static String getSendOtpScreen() => sendOtpScreen;
 
@@ -127,7 +125,7 @@ class RouteHelper {
       List<int> encoded = utf8.encode(jsonEncode(previousAddress.toJson()));
       data = base64Encode(encoded);
     }
-    return '$main?page=$page&address=$data&showDialog=$showServiceNotAvailableDialog';
+    return '$home?page=$page&address=$data&showDialog=$showServiceNotAvailableDialog';
   }
 
   static String getSearchResultRoute({String? queryText, String? fromPage}) {
@@ -139,7 +137,7 @@ class RouteHelper {
     return '$searchScreen?fromPage=${fromPage??''}&query=$data';
   }
 
-  static String getServiceRoute(String id, {String fromPage="others"}) => '$service?id=$id&fromPage=$fromPage';
+  static String getServiceRoute(String id, {String fromPage="others"}) => '$serviceDetails?id=$id&fromPage=$fromPage';
   static String getProfileRoute() => profile;
   static String getEditProfileRoute() => profileEdit;
   static String getNotificationRoute() => notification;
@@ -157,12 +155,10 @@ class RouteHelper {
   static String getHtmlRoute(String page) => '$html?page=$page';
   static String getCategoryRoute(String fromPage,String campaignID) => '$categories?fromPage=$fromPage&campaignID=$campaignID';
   static String getCategoryProductRoute(String id, String name, String subCategoryIndex) {
-    List<int> encoded = utf8.encode(name);
-    String data = base64Encode(encoded);
-    return '$categoryProduct?id=$id&name=$data&subCategoryIndex=$subCategoryIndex';
+    return '$categoryProduct?id=$id&index=$subCategoryIndex';
   }
   static String getSupportRoute() => support;
-  static String getUpdateRoute(bool isUpdate) => '$update?update=${isUpdate.toString()}';
+  static String getUpdateRoute(String fromPage) => '$update?update=$fromPage';
   static String getCartRoute() => cart;
   static String getAddAddressRoute(bool fromCheckout) => '$addAddress?page=${fromCheckout ? 'checkout' : 'address'}';
   static String getEditAddressRoute(AddressModel address,bool fromCheckout) {
@@ -191,10 +187,10 @@ class RouteHelper {
   static String getNewSuggestedServiceScreen() => suggestService;
   static String getNewSuggestedServiceList() => suggestServiceList;
   static String getAllProviderRoute() => allProviderList;
-  static String getProviderDetails(String providerId,String subCategories) =>
-      '$providerDetailsScreen?provider_id=$providerId&sub_categories=$subCategories';
+  static String getProviderDetails(String providerId) =>
+      '$providerDetailsScreen?id=$providerId';
   static String getProviderReviewScreen(String subcategories,String providerId) =>
-      '$providerReviewScreen?sub_categories=$subcategories&provider_id=$providerId';
+      '$providerReviewScreen?id=$providerId';
   static String getProviderAvailabilityScreen(String subcategories,String providerId) =>
       '$providerAvailabilityScreen?sub_categories=$subcategories&provider_id=$providerId';
   static String getCreatePostScreen({String? schedule}){
@@ -217,15 +213,15 @@ class RouteHelper {
   static String getProviderWebView() => providerWebView;
   static String getServiceArea() => serviceArea;
   static String getServiceAreaMap() => serviceAreaMap;
-  static String getNearByProviderScreen() => nearByProviderScreen;
+  static String getNearByProviderScreen() => nearByProvider;
   static String getCustomImageListScreen({required List<String> imageList, required String imagePath,required int index, String? appBarTitle, String? createdAt}) {
     String imageListString = base64Encode(utf8.encode(jsonEncode(imageList)));
     return '$customImageListScreen?imageList=$imageListString&imagePath=$imagePath&index=$index&appBarTitle=$appBarTitle&createdAt=$createdAt';
   }
   static String getZoomImageScreen({required String image, required String imagePath, String? createdAt}) =>
-      '$zoomImageScreen?image=$image&imagePath=$imagePath&createdAt=$createdAt';
-  static String getMyFavoriteScreen() => myFavorite;
-  static String getMaintenanceRoute() => maintenanceRoute;
+      '$zoomImage?image=$image&imagePath=$imagePath&createdAt=$createdAt';
+  static String getMyFavoriteScreen() => favorite;
+  static String getMaintenanceRoute() => maintenance;
   static String getUpdateProfileRoute({String? phone, String? email, String? tempToken, String? userName}) {
     final String data1= Uri.encodeComponent(jsonEncode(phone??""));
     final String data2= Uri.encodeComponent(jsonEncode(email??""));
@@ -239,7 +235,7 @@ class RouteHelper {
     GetPage(
       name: initial, binding: BottomNavBinding(),
       page: () => getRoute(ResponsiveHelper.isDesktop(Get.context)
-          ? AccessLocationScreen(fromSignUp: false, fromHome: Get.parameters['page']=='home', route: RouteHelper.getMainRoute('home'))
+          ? AccessLocationScreen(fromSignUp: false,route: RouteHelper.getMainRoute('home'))
           : const BottomNavScreen(pageIndex: 0, previousAddress: null, showServiceNotAvailableDialog: true,)),
     ),
     GetPage(name: splash, page: () {
@@ -250,20 +246,19 @@ class RouteHelper {
       }
       return SplashScreen(body: data, route: Get.parameters['route'],);
     }),
-    GetPage(name: language, page: () => const ChooseLanguageBottomSheet()),
-    GetPage(name: languageScreen, page: () => LanguageScreen(fromPage: Get.parameters['fromPage']!,)),
+    GetPage(name: languageScreen, page: () => LanguageScreen(fromPage: Get.parameters['fromPage'],)),
     GetPage(name: offers, page: () => getRoute(const OfferScreen())),
     GetPage(name: signIn, page: () =>
         SignInScreen(
           exitFromApp: Get.parameters['page'] == signUp || Get.parameters['page'] == splash,
-          fromPage: Get.parameters['page']! ,
+          fromPage: Get.parameters['page'] ,
         )),
     GetPage(name: signUp, page: () => const SignUpScreen()),
 
 
     GetPage(name: accessLocation, page: () => AccessLocationScreen(
-      fromSignUp: Get.parameters['page'] == signUp,
-      fromHome: Get.parameters['page'] == 'home', route: null,
+      fromHome: Get.parameters['page'] == 'home',
+      fromSignUp: Get.parameters['page'] == signUp, route: null,
     )),
     GetPage(
         name: pickMap,
@@ -296,14 +291,15 @@ class RouteHelper {
           return (fromAddress && pickMapScreen == null) ? const NotFoundScreen() :
             pickMapScreen ?? PickMapScreen(
               fromSignUp: Get.parameters['page'] == signUp,
-              fromAddAddress: fromAddress, route: Get.parameters['page']!,
+              fromAddAddress: fromAddress,
+              route: Get.parameters['page'],
               canRoute: Get.parameters['route'] == 'true',
               formCheckout: Get.parameters['checkout'] == 'true',
               zone: zoneData, previousAddress: addressData,
       );
     }),
 
-    GetPage(binding: BottomNavBinding(), name: main, page: () {
+    GetPage(binding: BottomNavBinding(), name: home, page: () {
       AddressModel? addressData;
         if(Get.parameters['address'] != ""){
           try{
@@ -351,10 +347,9 @@ class RouteHelper {
     }),
 
     GetPage(name: featheredServiceScreen, page: () {
-
       return AllFeatheredCategoryServiceView(
-        fromPage: Get.parameters['fromPage']!,
-        categoryId: Get.parameters['categoryId']!,
+        fromPage: Get.parameters['fromPage'],
+        categoryId: Get.parameters['categoryId'],
       );
     }),
 
@@ -380,19 +375,18 @@ class RouteHelper {
         }),
 
     GetPage(
-        name: service,
-        binding: ServiceDetailsBinding(),
-        page: () {
-          return getRoute(Get.arguments ?? ServiceDetailsScreen(serviceID: Get.parameters['id']!,fromPage: Get.parameters['fromPage']!,));}),
+      name: serviceDetails, binding: ServiceDetailsBinding(),
+      page: () {
+        return getRoute(Get.arguments ?? ServiceDetailsScreen(serviceID: Get.parameters['id'],fromPage: Get.parameters['fromPage'],));},
+    ),
 
     GetPage(name: profile, page: () => const ProfileScreen()),
-    GetPage(
-        name: profileEdit, page: () => getRoute(const EditProfileScreen())),
+    GetPage(name: profileEdit, page: () => getRoute(const EditProfileScreen())),
     GetPage(name: notification, page: () => getRoute(const NotificationScreen())),
 
       GetPage(
-          name: orderSuccess,
-          page: () => getRoute(OrderSuccessfulScreen(status: Get.parameters['flag'].toString().contains('success') ? 1 : 0,))
+        name: orderSuccess,
+        page: () => getRoute(OrderSuccessfulScreen(status: Get.parameters['flag'].toString().contains('success') ? 1 : 0,)),
       ),
       GetPage( binding: CheckoutBinding(),
         name: checkout, page: () {
@@ -401,7 +395,7 @@ class RouteHelper {
             return getRoute(const OrderSuccessfulScreen(status: 0,));
           }
           return getRoute(CheckoutScreen(
-            Get.parameters.containsKey('flag') && Get.parameters['flag']! == 'success' ? 'complete' : Get.parameters['currentPage'].toString(),
+            Get.parameters.containsKey('flag') && Get.parameters['flag']! == 'success' ? 'complete' : Get.parameters['currentPage'] ?? "orderDetails",
             Get.parameters['addressID'] != null ? Get.parameters['addressID']! :'null' ,
             reload : Get.parameters['reload'].toString() == "true" || Get.parameters['reload'].toString() == "null" ? true : false,
             token: Get.parameters["token"],
@@ -431,70 +425,76 @@ class RouteHelper {
               HtmlType.aboutUs
       )),
 
-      GetPage(
-          name: categories,
-          page: () => getRoute(CategoryScreen(fromPage: Get.parameters['fromPage']!,campaignID:Get.parameters['campaignID']!))),
-      GetPage(
-          name: categoryProduct,
-          page: () {
-            List<int> decode = base64Decode(Get.parameters['name']!.replaceAll(' ', '+'));
-            String data = utf8.decode(decode);
-            return getRoute(CategorySubCategoryScreen(
-              categoryID: Get.parameters['id']!,
-              categoryName: data,
-              subCategoryIndex: Get.parameters['subCategoryIndex']!,
-            ));
+      GetPage(name: categories,
+          page: () => getRoute(CategoryScreen(fromPage: Get.parameters['fromPage'],campaignID:Get.parameters['campaignID']))
+      ),
+      GetPage(name: categoryProduct, page: () {
+        return getRoute(CategorySubCategoryScreen(
+          categoryID: Get.parameters['id'] ?? "",
+          categoryIndex: Get.parameters['index'] ?? "0",
+        ));
       }),
       GetPage(name: support, page: () => SupportScreen()),
-      GetPage(name: update, page: () => UpdateScreen(isUpdate: Get.parameters['update'] == 'true')),
+      GetPage(name: update, page: () => UpdateScreen(fromPage: Get.parameters['update'])),
       GetPage(name: cart, page: () => getRoute(const CartScreen(fromNav: false))),
       GetPage(name: addAddress, page: () => getRoute(AddAddressScreen(fromCheckout: Get.parameters['page'] == 'checkout'))),
-      GetPage(
-          name: editAddress,
-          page: () => getRoute(AddAddressScreen(
-            fromCheckout: Get.parameters['page'] == 'checkout',
-            address: AddressModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['data']!.replaceAll(' ', '+'))))),
-      ))),
+      GetPage(name: editAddress, page: () {
 
-    GetPage( name: chatScreen, transition: Transition.topLevel, page: () => getRoute(ConversationDetailsScreen(
-      channelID: Get.parameters['channelID']!,
-      name: Get.parameters['name']!,
-      phone: Get.parameters['phone']!,
-      image: Get.parameters['image']!,
-      userType: Get.parameters['userType']!,
+        AddressModel? address;
+
+        try{
+          address = AddressModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['data']!.replaceAll(' ', '+')))));
+        }catch(e){
+          if (kDebugMode) {
+            print(e);
+          }
+        }
+        return getRoute(AddAddressScreen(
+          fromCheckout: Get.parameters['page'] == 'checkout',
+          address: address,
+        ));
+      }),
+
+    GetPage( name: chatScreen, transition: Transition.topLevel, page: () => ConversationDetailsScreen(
+      channelID: Get.parameters['channelID'],
+      name: Get.parameters['name'],
+      phone: Get.parameters['phone'],
+      image: Get.parameters['image'],
+      userType: Get.parameters['userType'] ??"",
       formNotification: Get.parameters['fromNotification'] ?? "",
-    ))),
+    )),
 
     GetPage(name: chatInbox,binding: ConversationBinding(), page: () =>  ConversationListScreen(
       fromNotification: Get.parameters['fromNotification'],
     )),
 
       GetPage(name: address, page: ()=>getRoute(
-          AddressScreen(fromPage:Get.parameters['fromProfileScreen']!)
+          AddressScreen(fromPage:Get.parameters['fromProfileScreen'])
       ) ),
       GetPage(binding: OnBoardBinding(),name: onBoardScreen, page: ()=>const OnBoardingScreen(),),
-      GetPage(name: settingScreen,binding: SettingsBinding(), page: ()=>const SettingScreen(),),
+      GetPage(name: settingScreen, page: ()=>const SettingScreen(),),
       GetPage(name: voucherScreen, page: ()=>  getRoute(CouponScreen(fromCheckout: Get.parameters['fromCheckout'] == "checkout")),),
       GetPage(binding: BookingBinding(),name: bookingDetailsScreen, page: ()=> BookingDetailsScreen(
-        bookingID: Get.parameters['bookingID']!,
-        phone: Get.parameters['phone']!,
-        fromPage: Get.parameters['fromPage']!,
-      ),),
+        bookingID: Get.parameters['bookingID'],
+        phone: Get.parameters['phone'],
+        fromPage: Get.parameters['fromPage'],
+      )),
 
       GetPage(binding: BookingBinding(),name: trackBooking, page: ()=> const BookingTrackScreen(),),
-      GetPage(binding: ServiceBinding(),name: allServiceScreen, page:  ()=> getRoute(AllServiceView(fromPage: Get.parameters['fromPage']!,campaignID: Get.parameters['campaignID']!,)),),
+      GetPage(binding: ServiceBinding(),name: allServiceScreen, page:  ()=> getRoute(AllServiceView(fromPage: Get.parameters['fromPage'],campaignID: Get.parameters['campaignID'],)),),
       GetPage(binding: ServiceBinding(),name: subCategoryScreen, page: ()=> SubCategoryScreen(
-        categoryTitle: Get.parameters['categoryName']!,
-        categoryID: Get.parameters['categoryId']!,
-        subCategoryIndex: int.parse(Get.parameters['subCategoryIndex']!),
+        categoryTitle: Get.parameters['categoryName'],
+        categoryID: Get.parameters['categoryId'],
+        subCategoryIndex: int.tryParse(Get.parameters['subCategoryIndex']??""),
       ),),
       GetPage(
         binding: SubmitReviewBinding(),
         name: rateReviewScreen, page: () {
           return RateReviewScreen(
-            id : Get.parameters['id'].toString(),
+            id : Get.parameters['id'],
           );
-          },),
+          },
+      ),
     GetPage(name: bookingListScreen, page: ()=> BookingListScreen( isFromMenu: Get.parameters['isFromMenu'] == "true"? true: false)),
     GetPage(name: notLoggedScreen, page: ()=> NotLoggedInScreen(
         fromPage: Get.parameters['fromPage']!,
@@ -510,12 +510,8 @@ class RouteHelper {
     )),
     GetPage(name:referAndEarn, page:() => getRoute(const ReferAndEarnScreen(),)),
     GetPage(name:allProviderList, page:() => getRoute(const AllProviderView(),)),
-    GetPage(name:providerDetailsScreen, page:() => getRoute(ProviderDetailsScreen(providerId: Get.parameters['provider_id']!,subCategories: Get.parameters['sub_categories']!,))),
-    GetPage(name:providerReviewScreen, page:() =>
-        getRoute(ProviderReviewScreen(
-          subCategories: Get.parameters['sub_categories']!,
-          providerId: Get.parameters['provider_id']!,
-        ))),
+    GetPage(name:providerDetailsScreen, page:() => getRoute(ProviderDetailsScreen(providerId: Get.parameters['id']!,))),
+    GetPage(name:providerReviewScreen, page:() => getRoute(ProviderReviewScreen(providerId: Get.parameters['id'],))),
     GetPage(name:providerAvailabilityScreen, page:() =>
         getRoute(ProviderAvailabilityScreen(
           subCategories: Get.parameters['sub_categories']!,
@@ -530,13 +526,19 @@ class RouteHelper {
       fromNotification: Get.parameters["fromNotification"],
     ),)),
     GetPage( name:providerOfferList, page:() {
-
-     List<int> decode = base64Decode(Get.parameters['myPostData']!.replaceAll(' ', '+'));
-     MyPostData data = MyPostData.fromJson(jsonDecode(utf8.decode(decode)));
+      MyPostData? post;
+      try{
+        List<int> decode = base64Decode(Get.parameters['myPostData']!.replaceAll(' ', '+'));
+        post = MyPostData.fromJson(jsonDecode(utf8.decode(decode)));
+      }catch(e){
+        if (kDebugMode) {
+          print(e);
+        }
+      }
      return ProviderOfferListScreen(
         postId: Get.parameters['postId'],
-        myPostData: data,
-        status: Get.parameters['status']!,
+        myPostData: post,
+        status: Get.parameters['status'],
       );
     }),
 
@@ -553,7 +555,7 @@ class RouteHelper {
     GetPage(name: providerWebView, page: () => const ProviderWebView()),
     GetPage( name: serviceArea, page: () => const ServiceAreaScreen()),
     GetPage(name: serviceAreaMap, page: () => const ServiceAreaMapScreen()),
-    GetPage(name: nearByProviderScreen, page: () => const ExploreProviderMapScreen()),
+    GetPage(name: nearByProvider, page: () => const ExploreProviderMapScreen()),
 
 
     GetPage(
@@ -574,7 +576,7 @@ class RouteHelper {
 
 
     GetPage(
-      name: zoomImageScreen,
+      name: zoomImage,
       page:() {
         return ZoomImage(
           image: Get.parameters['image']!,
@@ -585,12 +587,12 @@ class RouteHelper {
     ),
 
     GetPage(
-      name: myFavorite,
+      name: favorite,
       page:() {
         return const MyFavoriteScreen();
       },
     ),
-    GetPage(name: maintenanceRoute, page: () => const MaintenanceScreen()),
+    GetPage(name: maintenance, page: () => const MaintenanceScreen()),
     GetPage(name: updateProfile, page: () {
       String phone = Uri.decodeComponent(jsonDecode(Get.parameters['phone']??""));
       String email = Uri.decodeComponent(jsonDecode(Get.parameters['email']??""));
@@ -606,21 +608,16 @@ class RouteHelper {
 
   ];
 
+
+
   static getRoute(Widget navigateTo) {
-
-    final ConfigModel configModel = Get.find<SplashController>().configModel;
-
-    double minimumVersion = 1;
-    if(Get.find<SplashController>().configModel.content?.minimumVersion != null){
-      if(GetPlatform.isAndroid) {
-        minimumVersion = double.parse(Get.find<SplashController>().configModel.content!.minimumVersion!.minVersionForAndroid!.toString());
-      }else if(GetPlatform.isIOS) {
-        minimumVersion = double.parse(Get.find<SplashController>().configModel.content!.minimumVersion!.minVersionForIos!.toString());
-      }
-    }
-
-    return (configModel.content?.maintenanceMode?.maintenanceStatus == 1 && configModel.content?.maintenanceMode?.selectedMaintenanceSystem?.webApp == 1 && kIsWeb && !AppConstants.avoidMaintenanceMode ) ? const MaintenanceScreen() : 5 < minimumVersion ? const UpdateScreen(isUpdate: true)
-        : Get.find<LocationController>().getUserAddress() != null ? navigateTo
-        : AccessLocationScreen(fromSignUp: false, fromHome: false, route: Get.currentRoute);
+    bool isRouteExist = Get.currentRoute == "/" || routes.any((route) {
+      String routeName = route.name == "/" ? "*" : route.name.replaceAll("/", "");
+      return Get.currentRoute.split('?')[0].replaceAll("/", "") == routeName;
+    });
+    var config = Get.find<SplashController>().configModel.content?.maintenanceMode;
+    bool maintenance = config?.maintenanceStatus == 1 && config?.selectedMaintenanceSystem?.webApp == 1 && kIsWeb && !AppConstants.avoidMaintenanceMode;
+    return !isRouteExist ?  const NotFoundScreen() : maintenance ? const MaintenanceScreen() : Get.find<LocationController>().getUserAddress() != null ? navigateTo
+        : AccessLocationScreen(fromSignUp: false, route: Get.currentRoute);
   }
-  }
+}

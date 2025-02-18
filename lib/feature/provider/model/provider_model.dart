@@ -112,7 +112,6 @@ class ProviderData {
   TimeSchedule? timeSchedule;
   List<SubscribedServices>? subscribedServices;
   String? cashLimitStatus;
-  List<ReviewData>? reviews;
   int? totalServiceServed;
   int? subscribedServicesCount;
   Coordinates? coordinates;
@@ -153,12 +152,10 @@ class ProviderData {
         this.chatEligibility,
         this.weekends,
         this.timeSchedule,
-        this.reviews,
         this.totalServiceServed,
         this.subscribedServicesCount,
         this.coordinates,
         this.distance,
-
       });
 
   ProviderData.fromJson(Map<String, dynamic> json) {
@@ -177,7 +174,7 @@ class ProviderData {
     serviceManCount = json['service_man_count'];
     serviceCapacityPerDay = json['service_capacity_per_day'];
     ratingCount = json['rating_count'];
-    avgRating = double.tryParse(json['avg_rating'].toString());
+    avgRating = json['avg_rating'] != null ? double.tryParse(double.tryParse(json['avg_rating'].toString())!.toStringAsExponential(2)) : null;
     commissionStatus = json['commission_status'];
     commissionPercentage = int.tryParse(json['commission_percentage'].toString());
     isActive = int.tryParse(json['is_active'].toString());
@@ -202,14 +199,6 @@ class ProviderData {
       });
     }
     cashLimitStatus = json['cash_limit_status'];
-
-    if (json['reviews'] != null) {
-      reviews = <ReviewData>[];
-      json['reviews'].forEach((v) {
-        reviews!.add(ReviewData.fromJson(v));
-      });
-    }
-
     totalServiceServed = int.tryParse(json['total_service_served'].toString());
     subscribedServicesCount = int.tryParse(json['subscribed_services_count'].toString());
     coordinates = json['coordinates'] != null
@@ -261,10 +250,6 @@ class ProviderData {
           subscribedServices!.map((v) => v.toJson()).toList();
     }
     data['cash_limit_status'] = cashLimitStatus;
-
-    if (reviews != null) {
-      data['reviews'] = reviews!.map((v) => v.toJson()).toList();
-    }
     data['total_service_served'] = totalServiceServed;
     data['subscribed_services_count'] = subscribedServicesCount;
     if (coordinates != null) {

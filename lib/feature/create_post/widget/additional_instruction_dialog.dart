@@ -50,7 +50,7 @@ class AdditionalInstructionDialog extends StatelessWidget {
                       if(value.isNotEmpty){
                         createPostController.addAdditionalInstruction(value);
                       }else{
-                        customSnackBar('enter_additional_instruction'.tr);
+                        customSnackBar('enter_additional_instruction'.tr, type: ToasterMessageType.info);
                       }
                       Get.back();
                     },

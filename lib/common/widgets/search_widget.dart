@@ -60,12 +60,12 @@ class SearchWidget extends StatelessWidget {
               onSubmitted: (text) {
                 if(text.isNotEmpty) {
                   if(text.length > 255){
-                    customSnackBar('search_text_length_message'.tr, isError: true);
+                    customSnackBar('search_text_length_message'.tr, type: ToasterMessageType.info);
                   }else{
                     searchController.searchData(query:text,offset: 1,);
                   }
                 }else{
-                  customSnackBar('search_text_empty_message'.tr, isError: true);
+                  customSnackBar('search_text_empty_message'.tr, type: ToasterMessageType.info);
                 }
               },
             ),

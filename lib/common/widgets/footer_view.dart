@@ -176,11 +176,11 @@ class _FooterViewState extends State<FooterView> {
                           width: 60,
                           color: Theme.of(context).colorScheme.primary,),
                         const SizedBox(height: Dimensions.paddingSizeLarge),
-                        FooterButton(title: 'current_offers'.tr, route: RouteHelper.getOffersRoute('')),
+                        FooterButton(title: 'current_offers'.tr, route: RouteHelper.getOffersRoute()),
                         const SizedBox(height: Dimensions.paddingSizeSmall),
                         FooterButton(title: 'popular_services'.tr, route: RouteHelper.allServiceScreenRoute("popular_services")),
                         const SizedBox(height: Dimensions.paddingSizeSmall),
-                        FooterButton(title: 'categories'.tr, route: RouteHelper.getCategoryRoute('fromPage', '123')),
+                        FooterButton(title: 'categories'.tr, route: RouteHelper.getCategoryRoute('', '')),
                         const SizedBox(height: Dimensions.paddingSizeSmall),
 
                         if(config.content?.providerSelfRegistration == 1)
@@ -313,7 +313,7 @@ class FooterButton extends StatelessWidget {
           }else {
             Get.toNamed(route);
             if(Get.find<LocationController>().getUserAddress() == null && (Get.currentRoute.contains(RouteHelper.offers) || Get.currentRoute.contains(RouteHelper.categories) || Get.currentRoute.contains(RouteHelper.allServiceScreen))) {
-              customSnackBar("pick_an_address".tr);
+              customSnackBar("pick_an_address".tr, type: ToasterMessageType.info);
             }
           }
         } : null,

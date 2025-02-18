@@ -35,8 +35,8 @@ class ServiceTabController extends GetxController with GetSingleTickerProviderSt
   bool? _isLoading;
   int? _pageSize = 0;
   ReviewContent? reviewContent;
-  List<ReviewData>? _reviewList;
-  List<ReviewData>? get reviewList => _reviewList;
+  List<Review>? _reviewList;
+  List<Review>? get reviewList => _reviewList;
   bool get isLoading => _isLoading!;
   int? get pageSize => _pageSize!;
   Rating? _rating;

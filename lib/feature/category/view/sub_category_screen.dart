@@ -2,14 +2,14 @@ import 'package:demandium/utils/core_export.dart';
 import 'package:get/get.dart';
 
 class SubCategoryScreen extends StatefulWidget {
-  final String categoryTitle;
-  final String categoryID;
-  final int subCategoryIndex;
+  final String? categoryTitle;
+  final String? categoryID;
+  final int? subCategoryIndex;
   const SubCategoryScreen({
     super.key,
-    required this.categoryTitle,
-    required this.categoryID,
-    required this.subCategoryIndex,
+    this.categoryTitle,
+    this.categoryID,
+    this.subCategoryIndex,
   }) ;
 
   @override
@@ -30,7 +30,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
         appBar: CustomAppBar(title: widget.categoryTitle,),
       body: GetBuilder<CategoryController>(
         initState: (state){
-          Get.find<CategoryController>().getSubCategoryList(widget.categoryID, widget.subCategoryIndex,shouldUpdate: false); //banner id is category here
+          Get.find<CategoryController>().getSubCategoryList(widget.categoryID ?? "",shouldUpdate: false); //banner id is category here
 
         },
         builder: (categoryController){

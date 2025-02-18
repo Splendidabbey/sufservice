@@ -2,31 +2,25 @@ import 'package:get/get.dart';
 import 'package:demandium/utils/core_export.dart';
 
 class ServiceDetailsScreen extends StatefulWidget {
-  final String serviceID;
-  final String fromPage;
-  const ServiceDetailsScreen({super.key, required this.serviceID,this.fromPage="others"}) ;
+  final String? serviceID;
+  final String? fromPage;
+  const ServiceDetailsScreen({super.key, this.serviceID,this.fromPage="others"}) ;
 
   @override
   State<ServiceDetailsScreen> createState() => _ServiceDetailsScreenState();
 }
 
 class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
-  final ScrollController scrollController = ScrollController();
+
   final scaffoldState = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
+    if(widget.serviceID != null){
+      Get.find<ServiceDetailsController>().getServiceDetails(widget.serviceID!, fromPage: widget.fromPage == "search_page" ? "search_page" : "");
 
-    Get.find<ServiceDetailsController>().getServiceDetails(widget.serviceID, fromPage: widget.fromPage == "search_page" ? "search_page" : "");
-
-    scrollController.addListener(() {
-      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-        int pageSize = Get.find<ServiceTabController>().pageSize??0;
-        if (Get.find<ServiceTabController>().offset! < pageSize) {
-          Get.find<ServiceTabController>().getServiceReview(widget.serviceID, Get.find<ServiceTabController>().offset!+1);
-        }}
-    });
-    Get.find<ServiceController>().getRecentlyViewedServiceList(1,true,);
+      Get.find<ServiceController>().getRecentlyViewedServiceList(1,true,);
+    }
     super.initState();
   }
 
@@ -38,8 +32,8 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
       appBar: CustomAppBar(centerTitle: false, title: 'service_details'.tr,showCart: true,),
       body: GetBuilder<ServiceDetailsController>(
         builder: (serviceController) {
-          if(serviceController.service != null){
-            if(serviceController.service!.id != null){
+          if(serviceController.service != null || widget.serviceID == null){
+            if(serviceController.service != null && serviceController.service!.id != null &&  widget.serviceID != null){
               Service? service = serviceController.service;
               Discount discount = PriceConverter.discountCalculation(service!);
               double lowestPrice = 0.0;
@@ -52,7 +46,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                 }
               }
               return  FooterBaseView(
-                isScrollView:ResponsiveHelper.isMobile(context) ? false: true,
+                isScrollView: ResponsiveHelper.isMobile(context) ? false: true,
                 child: SizedBox(
                   width: Dimensions.webMaxWidth,
                   child: DefaultTabController(
@@ -101,10 +95,9 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                               ],
                             ),
                             Positioned(
-                              bottom: -2,
-                                left: Dimensions.paddingSizeSmall,
-                                right: Dimensions.paddingSizeSmall,
-                                child: ServiceInformationCard(discount: discount,service: service,lowestPrice: lowestPrice)),
+                              bottom: -2, left: Dimensions.paddingSizeSmall, right: Dimensions.paddingSizeSmall,
+                              child: ServiceInformationCard(discount: discount,service: service,lowestPrice: lowestPrice,),
+                            ),
                           ],
                         ),
                         //Tab Bar
@@ -176,9 +169,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                   const SingleChildScrollView(child: ServiceDetailsFaqSection()),
                                 if(controller.reviewList != null)
                                   SingleChildScrollView(
-                                    child: ServiceDetailsReview(
-                                      serviceID: serviceController.service!.id!,
-                                      reviewList: controller.reviewList!, rating : controller.rating,),
+                                    child: ServiceDetailsReview(serviceID: serviceController.service!.id!,),
                                   )
                                 else
                                   const EmptyReviewWidget()

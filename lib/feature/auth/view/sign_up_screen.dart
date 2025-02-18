@@ -43,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvoked: (didPop){
+      onPopInvokedWithResult: (didPop, result){
         if(didPop){
           AuthController authController = Get.find();
           authController.acceptTerms == true ? authController.toggleTerms() :
@@ -113,7 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.webMaxWidth /3.5 :
                             ResponsiveHelper.isTab(context) ? Dimensions.webMaxWidth / 5.5 : 0,
                           ),
-                          child: const SocialLoginWidget(fromPage: RouteHelper.main,),
+                          child: const SocialLoginWidget(fromPage: RouteHelper.home,),
                         ) : const SizedBox(),
                         const SizedBox(height: Dimensions.paddingSizeDefault,),
                         Row(
@@ -127,7 +127,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             InkWell(
                               onTap: () {
-                                Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
+                                Get.toNamed(RouteHelper.getSignInRoute());
                               },
                               child: Text('sign_in_here'.tr, style: ubuntuRegular.copyWith(
                                 decoration: TextDecoration.underline,

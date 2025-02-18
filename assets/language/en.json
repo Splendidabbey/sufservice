@@ -783,7 +783,6 @@
   "the_provider_who_previously" : "The provider who previously provided service for you for this booking is not available right now, Do you want to continue without this provider ?",
   "yes_continue" : "Yes, Continue",
   "price" : "Price",
-  "see_more" : "See More",
   "some_services_price" : "Some Services Price has been changed",
   "some_services_has_been_changed" : "Some services from this booking is not currently available. Do you want to continue this booking without those services ?",
   "please_Review_the_changes" : "Please Review the changes from this booking",
@@ -934,5 +933,14 @@
   "email_is_verified": "Email is verified",
   "cant_update_phone_number": "Can't update phone number",
   "session_time_out" : "Session Time Out",
-  "though_it_is_demo_text" : "Though it is a demo app, our system automatically reset after one hour and that's why you logged out."
+  "though_it_is_demo_text" : "Though it is a demo app, our system automatically reset after one hour and that's why you logged out.",
+  "for_demo_purpose": "For demo purpose please use 123456 as OTP",
+  "replied_by_provider": "Replied by Provider",
+  "see_more": "See More",
+  "see_less": "See Less",
+  "loading": "Loading...",
+  "401": "Unauthenticated !",
+  "empty_cart_go_back": "Empty Cart, Go Back!",
+  "oops_page_not_found": "Oops! Page Not Found",
+  "the_page_you_entered": "The link you clicked may be broken or the page\nmay have been removed or renamed."
 }

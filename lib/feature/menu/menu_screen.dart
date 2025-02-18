@@ -34,7 +34,7 @@ class _MenuScreenState extends State<MenuScreen> {
       ),
       MenuModel(icon: Images.voucherIcon, title: 'vouchers'.tr, route: RouteHelper.getVoucherRoute(fromPage: 'menu')),
 
-      MenuModel(icon: Images.myFavorite, title: 'my_favorite'.tr, route:!isLoggedIn ? RouteHelper.getNotLoggedScreen(RouteHelper.myFavorite,"my_favorite"): RouteHelper.getMyFavoriteScreen()),
+      MenuModel(icon: Images.myFavorite, title: 'my_favorite'.tr, route:!isLoggedIn ? RouteHelper.getNotLoggedScreen(RouteHelper.favorite,"my_favorite"): RouteHelper.getMyFavoriteScreen()),
       if(configModel.content?.biddingStatus == 1)
         MenuModel(icon: Images.customPostIcon, title: 'my_posts'.tr,
             route: isLoggedIn ? RouteHelper.getMyPostScreen() : RouteHelper.getNotLoggedScreen(RouteHelper.myPost,"my_posts")

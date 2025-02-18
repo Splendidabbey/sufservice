@@ -53,7 +53,7 @@ class SubCategoryView extends GetView<CategoryController> {
            child: SizedBox(
              height: Get.height / 1.5,
              child: NoDataScreen(
-               text: noDataText ?? 'no_category_found'.tr,
+               text: noDataText ?? 'no_subcategory_found'.tr,
                type: NoDataType.categorySubcategory,
              ),
            ),

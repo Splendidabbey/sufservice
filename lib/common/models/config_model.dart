@@ -80,11 +80,13 @@ class ConfigContent {
   String? partialPaymentCombinator;
   bool? confirmationOtpStatus;
   String? currencySymbol;
+  String? appEnvironment;
   int? instantBooking;
   int? scheduleBooking;
   int? scheduleBookingTimeRestriction;
   AdvanceBooking? advanceBooking;
   List<Language>? languageList;
+  List<ErrorLog>? errorLogs;
   MaintenanceMode? maintenanceMode;
   CustomerLogin? customerLogin;
   ForgetPasswordVerificationMethod? forgetPasswordVerificationMethod;
@@ -142,6 +144,7 @@ class ConfigContent {
         this.partialPaymentCombinator,
         this.confirmationOtpStatus,
         this.currencySymbol,
+        this.appEnvironment,
         this.instantBooking,
         this.scheduleBooking,
         this.scheduleBookingTimeRestriction,
@@ -150,6 +153,7 @@ class ConfigContent {
         this.maintenanceMode,
         this.customerLogin,
         this.firebaseOtpVerification,
+        this.errorLogs,
       });
 
   ConfigContent.fromJson(Map<String, dynamic> json) {
@@ -221,6 +225,7 @@ class ConfigContent {
     additionalCharge = int.tryParse(json['booking_additional_charge'].toString());
     partialPaymentCombinator= json['partial_payment_combinator'];
     currencySymbol = json['currency_symbol'];
+    appEnvironment = json['app_environment'];
     if (json['confirm_otp_for_complete_service'] != null) {
       confirmationOtpStatus= json['confirm_otp_for_complete_service'] == 1 ? true : false;
     }
@@ -242,6 +247,12 @@ class ConfigContent {
         ? CustomerLogin.fromJson(json['login_setup'])
         : null;
 
+    if (json['error_logs'] != null) {
+      errorLogs = <ErrorLog>[];
+      json['error_logs'].forEach((v) {
+        errorLogs!.add(ErrorLog.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -271,14 +282,10 @@ class ConfigContent {
 
     data['pagination_limit'] = paginationLimit;
 
-
     if (minimumVersion != null) {
       data['min_versions'] = minimumVersion!.toJson();
     }
     data['footer_text'] = footerText;
-    // data['google_social_login'] = googleSocialLogin;
-    // data['facebook_social_login'] = facebookSocialLogin;
-    // data['apple_social_login'] = appleSocialLogin;
     data['phone_number_visibility_for_chatting'] = phoneNumberVisibility;
     data['wallet_status'] = walletStatus;
     data['add_to_fund_wallet'] = addFundToWallet;
@@ -890,6 +897,25 @@ class ForgetPasswordVerificationMethod {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['phone'] = phone;
     data['email'] = email;
+    return data;
+  }
+}
+
+class ErrorLog {
+  String? url;
+  String? redirectUrl;
+
+  ErrorLog({this.url, this.redirectUrl});
+
+  ErrorLog.fromJson(Map<String, dynamic> json) {
+    url = json['url'];
+    redirectUrl = json['redirect_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['url'] = url;
+    data['redirect_url'] = redirectUrl;
     return data;
   }
 }

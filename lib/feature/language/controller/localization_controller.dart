@@ -69,7 +69,7 @@ class LocalizationController extends GetxController implements GetxService {
     }
   }
 
-  void filterLanguage({bool shouldUpdate = true, bool isChooseLanguage = false, bool isInitial = false, String fromPage = ""}) {
+  void filterLanguage({bool shouldUpdate = true, bool isChooseLanguage = false, bool isInitial = false, String? fromPage = ""}) {
 
     List<Language>  adminLanguageList = isInitial ? [] : Get.find<SplashController>().configModel.content?.languageList ?? [];
 

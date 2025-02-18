@@ -87,7 +87,7 @@ class SuggestServiceController extends GetxController{
     Response response = await suggestServiceRepo.submitNewServiceRequest(body);
     if(response.statusCode == 200){
       clearData();
-      customSnackBar("service_request_placed_successfully_to_admin".tr,isError: false);
+      customSnackBar("service_request_placed_successfully_to_admin".tr,type : ToasterMessageType.success);
     }
     else {
       ApiChecker.checkApi(response);

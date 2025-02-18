@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:demandium/utils/core_export.dart';
+import 'package:lottie/lottie.dart';
 
 class PickMapScreen extends StatefulWidget {
   final bool? fromSignUp;
@@ -80,7 +81,7 @@ class _PickMapScreenState extends State<PickMapScreen> {
             exit(0);
           }
         } else {
-          customSnackBar('back_press_again_to_exit'.tr, isError: false);
+          customSnackBar('back_press_again_to_exit'.tr, type : ToasterMessageType.info);
           _canExit = true;
           Timer(const Duration(seconds: 2), () {
             _canExit = false;
@@ -94,6 +95,7 @@ class _PickMapScreenState extends State<PickMapScreen> {
           child: WebShadowWrap(
             child: GetBuilder<LocationController>(builder: (locationController) {
               return Stack(children: [
+
                 GoogleMap(
                   initialCameraPosition: CameraPosition(
                     target: widget.fromAddAddress! ?   LatLng(locationController.position.latitude, locationController.position.longitude) : _initialPosition!,
@@ -121,9 +123,11 @@ class _PickMapScreenState extends State<PickMapScreen> {
                     _cameraPosition = cameraPosition;
                   },
                   onCameraMoveStarted: () {
+                    locationController.updateCameraMovingStatus(true);
                     locationController.disableButton();
                   },
                   onCameraIdle: () {
+                    locationController.updateCameraMovingStatus(false);
                     try{
                       Get.find<LocationController>().updatePosition(_cameraPosition!, false, formCheckout: widget.formCheckout);
                     }catch(e){
@@ -138,11 +142,10 @@ class _PickMapScreenState extends State<PickMapScreen> {
                   polygons: _polygone,
                 ),
 
-                Center(child: !locationController.loading ? Padding(
-                  padding: const EdgeInsets.only(bottom: 50),
-                  child: Image.asset(Images.marker, height: 60, width: 50),
-                )
-                    : const CircularProgressIndicator()),
+                Center(child: Padding(
+                  padding:  const EdgeInsets.only(bottom: Dimensions.pickMapIconSize * 0.65),
+                  child: locationController.isCameraMoving ? const AnimatedMapIconExtended() : const AnimatedMapIconMinimised(),
+                )),
 
                 Positioned(
                   top: Dimensions.paddingSizeLarge, left: Dimensions.paddingSizeSmall, right: Dimensions.paddingSizeSmall,
@@ -222,10 +225,10 @@ class _PickMapScreenState extends State<PickMapScreen> {
                             contactPersonName: firstName!=null ? "$firstName${Get.find<UserController>().userInfoModel?.lName ?? "" }" : ""
                           );
 
-                         locationController.saveAddressAndNavigate(address, widget.fromSignUp!, widget.route!, widget.canRoute!, true );
+                         locationController.saveAddressAndNavigate(address, widget.fromSignUp!, widget.route ?? RouteHelper.getMainRoute('home'), widget.canRoute!, true );
                         }
                       }else {
-                        customSnackBar('pick_an_address'.tr);
+                        customSnackBar('pick_an_address'.tr, type: ToasterMessageType.info);
                       }
                     },
                   ),
@@ -244,7 +247,7 @@ class _PickMapScreenState extends State<PickMapScreen> {
       permission = await Geolocator.requestPermission();
     }
     if(permission == LocationPermission.denied) {
-      customSnackBar('you_have_to_allow'.tr);
+      customSnackBar('you_have_to_allow'.tr, type: ToasterMessageType.info);
     }else if(permission == LocationPermission.deniedForever) {
       Get.dialog(const PermissionDialog());
     }else {
@@ -252,3 +255,127 @@ class _PickMapScreenState extends State<PickMapScreen> {
     }
   }
 }
+
+
+class AnimatedMapIconExtended extends StatefulWidget {
+  const AnimatedMapIconExtended({super.key});
+
+  @override
+  State<AnimatedMapIconExtended> createState() => _AnimatedMapIconExtendedState();
+}
+
+class _AnimatedMapIconExtendedState extends State<AnimatedMapIconExtended>  {
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<LocationController>(builder: (locationController){
+      return Center(
+        child: Stack( alignment: AlignmentDirectional.center, children: [
+          Lottie.asset(Images.mapIconExtended , repeat: false, height: Dimensions.pickMapIconSize,
+            delegates: LottieDelegates(
+              values: [
+                ValueDelegate.color(
+                  const ['Red circle Outlines', '**'],
+                  value: Theme.of(context).colorScheme.primary,
+                ),
+                ValueDelegate.color(
+                  const ['Shape Layer 1', '**'],
+                  value: Theme.of(context).colorScheme.primary,
+                ),
+                ValueDelegate.color(
+                  const ['Layer 4', 'Group 1', 'Stroke 1', '**'],
+                  value: Theme.of(context).colorScheme.primary,
+                ),
+                // Change color of Stroke 1 in Group 2
+                ValueDelegate.color(
+                  const ['Layer 4', 'Group 2', 'Stroke 1', '**'],
+                  value: Theme.of(context).colorScheme.primary,
+                ),
+                // Change color of Stroke 1 in Group 3
+                ValueDelegate.color(
+                  const ['Layer 4', 'Group 3', 'Stroke 1', '**'],
+                  value: Theme.of(context).colorScheme.primary,
+                ),
+                ValueDelegate.color(
+                  const ['shadow Outlines', '**'],
+                  value: Theme.of(context).colorScheme.primary,
+                )
+              ],
+            ),
+
+          ),
+           Padding(
+             padding:  const EdgeInsets.only(top: Dimensions.pickMapIconSize * 0.4),
+             child: Column(
+               crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, mainAxisSize: MainAxisSize.min,
+               children: List.generate(9, (index){
+                 return  Icon(Icons.circle, size: index == 8 ? Dimensions.pickMapIconSize * 0.06 : Dimensions.pickMapIconSize * 0.03,
+                   color: Theme.of(context).colorScheme.primary,
+                 );
+               }),
+             ),
+           ),
+        ],),
+      );
+    });
+  }
+}
+
+
+class AnimatedMapIconMinimised extends StatefulWidget {
+  const AnimatedMapIconMinimised({super.key});
+
+  @override
+  State<AnimatedMapIconMinimised> createState() => _AnimatedMapIconMinimisedState();
+}
+
+class _AnimatedMapIconMinimisedState extends State<AnimatedMapIconMinimised> with TickerProviderStateMixin {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<LocationController>(builder: (locationController){
+      return Center(
+        child: Stack( alignment: AlignmentDirectional.center, children: [
+          Lottie.asset(Images.mapIconMinimised , repeat: false, height: Dimensions.pickMapIconSize,
+            delegates: LottieDelegates(
+              values: [
+                ValueDelegate.color(
+                  const ['Red circle Outlines', '**'],
+                  value: Theme.of(context).colorScheme.primary,
+                ),
+                ValueDelegate.color(
+                  const ['Shape Layer 1', '**'],
+                  value: Theme.of(context).colorScheme.primary,
+                ),
+                ValueDelegate.color(
+                  const ['shadow Outlines', '**'],
+                  value: Theme.of(context).colorScheme.primary,
+                )
+              ],
+            ),
+          ),
+
+          TweenAnimationBuilder(
+            tween: Tween<double>(begin: 0.8, end: 0.1),
+            duration: const Duration(milliseconds: 400),
+            builder: (BuildContext context, double value, Widget? child) {
+              return Padding(
+                padding:  const EdgeInsets.only(top: Dimensions.pickMapIconSize * 0.4),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.end, mainAxisSize: MainAxisSize.min,
+                  children: List.generate(9, (index){
+                    return  Icon(Icons.circle, size: index == 8 ? Dimensions.pickMapIconSize * 0.06 : Dimensions.pickMapIconSize * 0.03,
+                      color: Theme.of(context).colorScheme.primary.withOpacity(value),
+                    );
+                  }),
+                ),
+              );
+            },
+          )
+        ],),
+      );
+    });
+  }
+}
+

@@ -2,9 +2,9 @@ import 'package:get/get.dart';
 import 'package:demandium/utils/core_export.dart';
 
 class LanguageScreen extends StatefulWidget {
-  final String fromPage;
+  final String? fromPage;
 
-  const LanguageScreen({super.key, required this.fromPage}) ;
+  const LanguageScreen({super.key, this.fromPage}) ;
 
   @override
   State<LanguageScreen> createState() => _LanguageScreenState();

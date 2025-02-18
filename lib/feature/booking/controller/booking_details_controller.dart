@@ -42,11 +42,11 @@ class BookingDetailsController extends GetxController implements GetxService{
     Response? response = await bookingDetailsRepo.bookingCancel(bookingID: bookingId);
     if(response.statusCode == 200 && response.body['response_code']=="status_update_success_200"){
       _isCancelling = false;
-      customSnackBar('booking_cancelled_successfully'.tr, isError: false);
+      customSnackBar('booking_cancelled_successfully'.tr, type : ToasterMessageType.success);
       await getBookingDetails(bookingId: bookingId);
     }else if(response.statusCode == 200 && (response.body['response_code'] == "booking_already_accepted_200"
         || response.body['response_code'] == "booking_already_ongoing_200" || response.body['response_code'] == "booking_already_completed_200")){
-      customSnackBar(response.body['message'] ?? "", isError: true);
+      customSnackBar(response.body['message'] ?? "");
       await getBookingDetails(bookingId: bookingId);
       _isCancelling = false;
     }

@@ -92,7 +92,7 @@ class ServiceBookingController extends GetxController implements GetxService {
         Get.back();
       }
       Get.find<CartController>().getCartListFromServer(shouldUpdate: true);
-      customSnackBar(response.body['message'], isError: false);
+      customSnackBar(response.body['message'], type : ToasterMessageType.success);
     }
   }
 

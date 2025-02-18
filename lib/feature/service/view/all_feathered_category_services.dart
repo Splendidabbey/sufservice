@@ -2,9 +2,9 @@ import 'package:get/get.dart';
 import 'package:demandium/utils/core_export.dart';
 
 class AllFeatheredCategoryServiceView extends StatefulWidget {
-  final String fromPage;
-  final String categoryId;
-  const AllFeatheredCategoryServiceView({super.key, required this.fromPage,required this.categoryId});
+  final String? fromPage;
+  final String? categoryId;
+  const AllFeatheredCategoryServiceView({super.key, this.fromPage, this.categoryId});
 
   @override
   State<AllFeatheredCategoryServiceView> createState() => _AllFeatheredCategoryServiceViewState();
@@ -39,7 +39,7 @@ class _AllFeatheredCategoryServiceViewState extends State<AllFeatheredCategorySe
 
           return serviceController.categoryList != null &&  serviceController.categoryList!.isNotEmpty ?  SizedBox(
             width: Dimensions.webMaxWidth,
-            child: (serviceList != null && serviceList!.isEmpty) ?  NoDataScreen(text: 'no_services_found'.tr,type: NoDataType.service,) :  serviceList != null ? Padding(
+            child: (serviceList != null && serviceList!.isEmpty) || widget.categoryId == null ?  NoDataScreen(text: 'no_services_found'.tr,type: NoDataType.service,) :  serviceList != null ? Padding(
               padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault,vertical: Dimensions.paddingSizeDefault),
               child: CustomScrollView(
                 shrinkWrap: true,
@@ -71,7 +71,7 @@ class _AllFeatheredCategoryServiceViewState extends State<AllFeatheredCategorySe
                     ),
                     delegate: SliverChildBuilderDelegate(
                           (context, index) {
-                        return ServiceWidgetVertical(service: serviceList![index], fromType: widget.fromPage,);
+                        return ServiceWidgetVertical(service: serviceList![index], fromType: widget.fromPage ?? "",);
                       },
                       childCount: serviceList!.length,
                     ),

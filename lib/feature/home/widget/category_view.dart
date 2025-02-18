@@ -94,7 +94,7 @@ class CategoryView extends StatelessWidget {
             ]),
           ),
         ),
-      ) : CategoryShimmer(categoryController: categoryController);
+      ) : const CategoryShimmer();
     });
   }
 }
@@ -102,10 +102,9 @@ class CategoryView extends StatelessWidget {
 
 
 class CategoryShimmer extends StatelessWidget {
-  final CategoryController categoryController;
   final bool? fromHomeScreen;
 
-  const CategoryShimmer({super.key, required this.categoryController, this.fromHomeScreen=true});
+  const CategoryShimmer({super.key, this.fromHomeScreen=true});
 
   @override
   Widget build(BuildContext context) {
@@ -115,37 +114,24 @@ class CategoryShimmer extends StatelessWidget {
         child: Column(
           children: [
             if(fromHomeScreen!) const SizedBox(height: Dimensions.paddingSizeLarge,),
-            if(fromHomeScreen!)Row(
+            if(fromHomeScreen!) Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-              Container(
-                height: 30,
-                width: 100,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                    boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[200]!, blurRadius: 5, spreadRadius: 1)],
-                  ),
-                child: Center(child: Container(
-                  height: ResponsiveHelper.isMobile(context)?10:ResponsiveHelper.isTab(context)?15:20,
-                  color: Theme.of(context).shadowColor,
-                  margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                ),),
-              ),
                 Container(
-                  height: 30,
-                  width: 80,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
-                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                      boxShadow: Get.isDarkMode? null :[BoxShadow(color: Colors.grey[300]!, blurRadius: 10, spreadRadius: 1)],
-                    ),
-                  child: Center(child: Container(
-                    height: ResponsiveHelper.isMobile(context)?10:ResponsiveHelper.isTab(context)?15:20,
-                    color: Theme.of(context).shadowColor,
-                    margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                  ),),
-                )
+                  height: 25, width: 120,
+                  decoration: BoxDecoration(
+                    color: Get.find<ThemeController>().darkTheme ?  Theme.of(context).cardColor : Theme.of(context).shadowColor,
+                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                    boxShadow: Get.isDarkMode ? null : cardShadow,
+                  ),
+                ), Container(
+                  height: 25, width: 100,
+                  decoration: BoxDecoration(
+                    color: Get.find<ThemeController>().darkTheme ?  Theme.of(context).cardColor : Theme.of(context).shadowColor,
+                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                    boxShadow: Get.isDarkMode ? null : cardShadow,
+                  ),
+                ),
             ],),
             if(fromHomeScreen!)const SizedBox(height: Dimensions.paddingSizeSmall,),
             GridView.builder(
@@ -156,14 +142,15 @@ class CategoryShimmer extends StatelessWidget {
                 return Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                    boxShadow: Get.isDarkMode?null:[BoxShadow(color: Colors.grey[200]!, blurRadius: 5, spreadRadius: 1)],
+                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                    boxShadow: Get.isDarkMode ? null: cardShadow,
                   ),
                   child: Shimmer(
                     duration: const Duration(seconds: 2),
                     enabled: true,
                     child: Column(mainAxisAlignment: MainAxisAlignment.center,children: [
 
+                      const SizedBox(height: Dimensions.paddingSizeDefault,),
                       Expanded(
                         child: Container(
                           height: double.infinity,
@@ -172,25 +159,28 @@ class CategoryShimmer extends StatelessWidget {
                             borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                             color: Theme.of(context).shadowColor,
                           ),
-                          margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeDefault),
+                          margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
                         ),
                       ),
-                      const SizedBox(height: Dimensions.paddingSizeSmall),
+                      const SizedBox(height: Dimensions.paddingSizeDefault),
                       Container(
-                        height: ResponsiveHelper.isMobile(context)?10:ResponsiveHelper.isTab(context)?15:20,
-                        color: Theme.of(context).shadowColor,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).shadowColor,
+                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                        ),
                         margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                       ),
 
-                      const SizedBox(height: Dimensions.paddingSizeSmall),
+                      const SizedBox(height: Dimensions.paddingSizeDefault),
                     ]),
                   ),
                 );
               },
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: !fromHomeScreen! ? 8 : ResponsiveHelper.isDesktop(context) ? 10 : ResponsiveHelper.isTab(context) ? 6 : 4,
-                crossAxisSpacing: Dimensions.paddingSizeSmall,
-                mainAxisSpacing: Dimensions.paddingSizeSmall,
+                crossAxisSpacing: Dimensions.paddingSizeSmall + 2,
+                mainAxisSpacing: Dimensions.paddingSizeSmall + 2,
                 childAspectRatio: 1,
               ),
             ),

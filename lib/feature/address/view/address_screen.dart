@@ -2,8 +2,8 @@ import 'package:get/get.dart';
 import 'package:demandium/utils/core_export.dart';
 
 class AddressScreen extends StatefulWidget {
-  final String fromPage;
-  const AddressScreen({super.key,required this.fromPage}) ;
+  final String? fromPage;
+  const AddressScreen({super.key, this.fromPage}) ;
 
   @override
   State<AddressScreen> createState() => _AddressScreenState();
@@ -125,7 +125,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                           locationController.deleteUserAddressByID(addressList![index],
                                           ).then((response) {
                                             Get.back();
-                                            customSnackBar(response.message!.tr.capitalizeFirst,isError:false);
+                                            customSnackBar(response.message!.tr.capitalizeFirst,type : ToasterMessageType.success);
                                           });
                                         },
                                       ));

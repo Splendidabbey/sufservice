@@ -50,7 +50,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> with WidgetsBindi
         if(_canExit) {
           exit(0);
         }else {
-          customSnackBar('back_press_again_to_exit'.tr, isError: false);
+          customSnackBar('back_press_again_to_exit'.tr, type : ToasterMessageType.info);
           _canExit = true;
           Timer(const Duration(seconds: 2), () {
             _canExit = false;

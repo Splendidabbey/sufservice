@@ -311,7 +311,7 @@ class _AdvertisementVideoPromotionWidgetState extends State<AdvertisementVideoPr
                 const SizedBox(width: Dimensions.paddingSizeLarge,),
 
                 InkWell(
-                  onTap: () => Get.toNamed(RouteHelper.getProviderDetails( widget.advertisement.providerId! , subcategories)),
+                  onTap: () => Get.toNamed(RouteHelper.getProviderDetails( widget.advertisement.providerId! )),
                   child: Container(
                     margin: const EdgeInsets.only(top: Dimensions.paddingSizeExtraSmall),
                     padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall + 5, vertical: Dimensions.paddingSizeSmall),
@@ -339,23 +339,12 @@ class AdvertisementProfilePromotionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List<String> subcategory=[];
-    advertisement.providerData?.subscribedServices?.forEach((element) {
-      if(element.subCategory!=null){
-        subcategory.add(element.subCategory?.name??"");
-      }
-    });
-
-    String subcategories = subcategory.toString().replaceAll('[', '');
-    subcategories = subcategories.replaceAll(']', '');
-    subcategories = subcategories.replaceAll('&', ' and ');
-
 
     return Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
       child: GetBuilder<AdvertisementController>(builder: (advertisementController){
 
         return InkWell(
-          onTap: () => Get.toNamed(RouteHelper.getProviderDetails(advertisement.providerId!, subcategories)),
+          onTap: () => Get.toNamed(RouteHelper.getProviderDetails(advertisement.providerId!, )),
           child: Stack(children: [
             Column(
               children: [

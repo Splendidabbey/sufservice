@@ -10,17 +10,6 @@ class ExploreProviderItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List<String> subcategory=[];
-    providerData.subscribedServices?.forEach((element) {
-      if(element.subCategory!=null){
-        subcategory.add(element.subCategory?.name??"");
-      }
-    });
-
-    String subcategories = subcategory.toString().replaceAll('[', '');
-    subcategories = subcategories.replaceAll(']', '');
-    subcategories = subcategories.replaceAll('&', ' and ');
-
     return GetBuilder<ExploreProviderController>(builder: (exploreProviderController){
       return Padding(padding: const EdgeInsets.all(5.0),
         child: OnHover(
@@ -120,7 +109,7 @@ class ExploreProviderItemView extends StatelessWidget {
                   await exploreProviderController.scrollController!.highlight(index);
 
                 }else{
-                  Get.toNamed(RouteHelper.getProviderDetails(providerData.id!,subcategories));
+                  Get.toNamed(RouteHelper.getProviderDetails(providerData.id!));
                 }
               }, borderRadius: 15,),),
 
@@ -133,6 +122,9 @@ class ExploreProviderItemView extends StatelessWidget {
                     customSnackBar(
                       "message",
                       customWidget: Row(mainAxisAlignment:  MainAxisAlignment.spaceBetween, children: [
+                        const Icon(Icons.info, color:  Colors.blueAccent, size: 20),
+                        const SizedBox(width: Dimensions.paddingSizeSmall),
+
                         Flexible(
                           child: Text("please_login_to_add_favorite_list".tr,
                             style: ubuntuRegular.copyWith(color: Colors.white),
@@ -140,8 +132,10 @@ class ExploreProviderItemView extends StatelessWidget {
                           ),
                         ),
 
+                        const SizedBox(width: Dimensions.paddingSizeSmall),
+
                         TextButton(
-                          onPressed: () => Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main)),
+                          onPressed: () => Get.toNamed(RouteHelper.getSignInRoute()),
                           child: Text('sign_in'.tr, style: ubuntuMedium.copyWith(
                             fontSize: Dimensions.fontSizeSmall, color: Colors.white,
                           )),

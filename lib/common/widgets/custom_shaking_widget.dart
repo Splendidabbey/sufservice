@@ -3,10 +3,8 @@ import 'package:demandium/utils/core_export.dart';
 
 
 abstract class AnimationControllerState<T extends StatefulWidget> extends State<T> with SingleTickerProviderStateMixin {
-  AnimationControllerState(this.animationDuration);
-  final Duration animationDuration;
-  late final animationController = AnimationController(vsync: this, duration: animationDuration);
-
+  AnimationControllerState();
+  late final animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
   @override
   void dispose() {
     animationController.dispose();
@@ -24,14 +22,17 @@ class CustomShakingWidget extends StatefulWidget {
   const CustomShakingWidget({
     super.key,
     required this.child,
-    required this.shakeOffset, this.shakeCount = 2, this.shakeDuration = const Duration(milliseconds: 400),});
+    required this.shakeOffset,
+    this.shakeCount = 2,
+    this.shakeDuration = const Duration(milliseconds: 400),
+  });
 
   @override
-  CustomShakingWidgetState createState() => CustomShakingWidgetState(shakeDuration);
+  CustomShakingWidgetState createState() => CustomShakingWidgetState();
 }
 
 class CustomShakingWidgetState extends AnimationControllerState<CustomShakingWidget> {
-  CustomShakingWidgetState(super.duration);
+  CustomShakingWidgetState();
 
   @override
   void initState() {
@@ -57,7 +58,6 @@ class CustomShakingWidgetState extends AnimationControllerState<CustomShakingWid
 
   @override
   Widget build(BuildContext context) {
-    // 1. return an AnimatedBuilder
     return AnimatedBuilder(
       animation: animationController,
       child: widget.child,
@@ -71,3 +71,4 @@ class CustomShakingWidgetState extends AnimationControllerState<CustomShakingWid
     );
   }
 }
+

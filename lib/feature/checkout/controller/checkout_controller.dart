@@ -190,7 +190,7 @@ class CheckOutController extends GetxController implements GetxService{
 
        }
        Get.find<CartController>().getCartListFromServer();
-       customSnackBar('${response.body['message']}'.tr,isError: false,margin: 55);
+       customSnackBar('${response.body['message']}'.tr,type : ToasterMessageType.success,margin: 55);
 
      } else {
        ApiChecker.checkApi(response);

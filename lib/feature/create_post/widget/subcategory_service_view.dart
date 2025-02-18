@@ -16,7 +16,7 @@ class _SubcategoryServiceViewState extends State<SubcategoryServiceView>  with S
   @override
   void initState() {
     super.initState();
-    Get.find<CategoryController>().getSubCategoryList(widget.categoryId,0,shouldUpdate: false).then((value) {
+    Get.find<CategoryController>().getSubCategoryList(widget.categoryId,shouldUpdate: false).then((value) {
       Get.find<ServiceController>().getSubCategoryBasedServiceList(
         Get.find<CategoryController>().subCategoryList !=null && Get.find<CategoryController>().subCategoryList!.isNotEmpty
             ? Get.find<CategoryController>().subCategoryList![0].id! : "",

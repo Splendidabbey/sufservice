@@ -4,9 +4,9 @@ import 'package:demandium/utils/core_export.dart';
 
 class AccessLocationScreen extends StatefulWidget {
   final bool? fromSignUp;
-  final bool? fromHome;
+  final bool fromHome;
   final String? route;
-  const AccessLocationScreen({super.key, @required this.fromSignUp, @required this.fromHome, @required this.route});
+  const AccessLocationScreen({super.key, @required this.fromSignUp, @required this.route, this.fromHome = false});
 
   @override
   State<AccessLocationScreen> createState() => _AccessLocationScreenState();
@@ -14,22 +14,14 @@ class AccessLocationScreen extends StatefulWidget {
 
 class _AccessLocationScreenState extends State<AccessLocationScreen> {
   bool isLoggedIn = false;
-
  AddressModel? _addressModel;
-
-  bool adminLoggedIn = false;
 
   @override
   void initState() {
     super.initState();
+
     Get.find<LocalizationController>().filterLanguage(shouldUpdate: false);
-    if(widget.fromHome! && Get.find<LocationController>().getUserAddress() != null) {
-      Future.delayed(const Duration(milliseconds: 100), () {
-        Get.find<LocationController>().autoNavigate(
-          Get.find<LocationController>().getUserAddress()!, widget.fromSignUp!, widget.route!, widget.route != null, null, true
-        );
-      });
-    }
+
     isLoggedIn = Get.find<AuthController>().isLoggedIn();
     if(isLoggedIn) {
       Get.find<LocationController>().getAddressList();
@@ -50,7 +42,7 @@ class _AccessLocationScreenState extends State<AccessLocationScreen> {
             exit(0);
           }
         } else {
-          customSnackBar('back_press_again_to_exit'.tr, isError: false);
+          customSnackBar('back_press_again_to_exit'.tr, type : ToasterMessageType.info);
           _canExit = true;
           Timer(const Duration(seconds: 2), () {
             _canExit = false;
@@ -62,7 +54,7 @@ class _AccessLocationScreenState extends State<AccessLocationScreen> {
         appBar: CustomAppBar(title: 'set_location'.tr, isBackButtonExist: false, shakeKey: shakeKey,),
         body: SafeArea(child: Center(
           child: GetBuilder<LocationController>(builder: (locationController) {
-            return (ResponsiveHelper.isDesktop(context)) &&  !widget.fromHome! ? WebLandingPage(fromSignUp: widget.fromSignUp,  route: widget.route, shakeKey: shakeKey,) :
+            return (ResponsiveHelper.isDesktop(context)) &&  !widget.fromHome ? WebLandingPage(fromSignUp: widget.fromSignUp,  route: widget.route, shakeKey: shakeKey,) :
             Column(
               children: [
                 Expanded(
@@ -228,7 +220,7 @@ class BottomButton extends StatelessWidget {
       permission = await Geolocator.requestPermission();
     }
     if(permission == LocationPermission.denied) {
-      customSnackBar('you_have_to_allow'.tr);
+      customSnackBar('you_have_to_allow'.tr, type: ToasterMessageType.info);
     }else if(permission == LocationPermission.deniedForever) {
       Get.dialog(const PermissionDialog());
     }else {

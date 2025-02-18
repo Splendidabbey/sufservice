@@ -6,7 +6,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class SocialLoginButton extends StatelessWidget {
   final String? title;
-  final String fromPage;
+  final String ? fromPage;
   final SocialLoginType socialLoginType;
   final bool showPadding;
   const SocialLoginButton({super.key, this.title, required this.socialLoginType, required this.fromPage, required this.showPadding});
@@ -84,7 +84,7 @@ class SocialLoginButton extends StatelessWidget {
 
 
 
-  _onTap ({required SocialLoginType socialLoginType, required String fromPage}) async {
+  _onTap ({required SocialLoginType socialLoginType,String? fromPage}) async {
 
     if(socialLoginType == SocialLoginType.google){
       await Get.find<AuthController>().socialLogin();

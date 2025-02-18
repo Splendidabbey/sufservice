@@ -42,7 +42,7 @@ class WebBannerView extends GetView<BannerController> {
                         borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                         child: CustomImage(
                           image: '${bannerController.banners![0].bannerImageFullPath}',
-                          fit: BoxFit.fill,
+                          placeHolderBoxFit: BoxFit.fill,
                           height: 220,
                         ),
                       ),

@@ -3,11 +3,12 @@
 <head>
   <base href="/">
 
-  <meta name="google-signin-client_id" content="YOUR_CLIENT_ID">
+  <meta name="google-signin-client_id" content="YOUR_CLIENT_KEY">
   <meta charset="UTF-8">
 
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="A multi-vendor service providing app.">
+  <meta name="robots" content="nofollow, noindex, max-snippet:1, max-video-preview:1, max-image-preview:standard">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -28,13 +29,28 @@
     // The value below is injected by flutter build, do not touch.
     var serviceWorkerVersion = {{flutter_service_worker_version}};
   </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service_worker.js')
+          .then((registration) => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          })
+          .catch((error) => {
+            console.log('ServiceWorker registration failed: ', error);
+          });
+      });
+    }
+  </script>
+
   <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js?version=2.8.0" defer></script>
+  <script src="flutter.js?version=2.9.0" defer></script>
 
 </head>
 <body>
 
-  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwtZFzIm3slEQduo4rgV4W4OeQMuELGg4&loading=async&callback=Function.prototype"></script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwtZFzIm3slEQduo4rgV4W4OeQMuELGg4&loading=async&callback=Function.prototype"></script>
 
 
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>

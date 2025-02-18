@@ -4,11 +4,11 @@ import 'package:demandium/utils/core_export.dart';
 
 
 class BookingDetailsScreen extends StatefulWidget {
-  final String bookingID;
-  final String phone;
-  final String fromPage;
+  final String? bookingID;
+  final String? phone;
+  final String? fromPage;
 
-  const BookingDetailsScreen({super.key, required this.bookingID, required this.fromPage, required this.phone}) ;
+  const BookingDetailsScreen({super.key,  this.bookingID,  this.fromPage,  this.phone}) ;
 
   @override
   State<BookingDetailsScreen> createState() => _BookingDetailsScreenState();
@@ -20,10 +20,12 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> with Single
 
   @override
   void initState() {
-    if(widget.fromPage == "track-booking") {
-      Get.find<BookingDetailsController>().trackBookingDetails(widget.bookingID, "+${widget.phone.trim()}", reload: false);
-    } else{
-      Get.find<BookingDetailsController>().getBookingDetails(bookingId: widget.bookingID);
+    if(widget.bookingID !=null){
+      if(widget.fromPage == "track-booking") {
+        Get.find<BookingDetailsController>().trackBookingDetails(widget.bookingID ??"", "+${widget.phone?.trim()}", reload: false);
+      } else{
+        Get.find<BookingDetailsController>().getBookingDetails(bookingId: widget.bookingID ?? "");
+      }
     }
     tabController = TabController(length: BookingDetailsTabs.values.length, vsync: this);
     super.initState();
@@ -55,9 +57,9 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> with Single
           },
         ),
         body: RefreshIndicator(
-          onRefresh: () async => Get.find<BookingDetailsController>().getBookingDetails(bookingId: widget.bookingID),
-
-          child: ResponsiveHelper.isDesktop(context) ? WebBookingDetailsScreen(tabController: tabController) :
+          onRefresh: () async =>  widget.bookingID != null? Get.find<BookingDetailsController>().getBookingDetails(bookingId: widget.bookingID!) : null,
+          child: widget.bookingID == null ? const NoDataScreen(text: "no_data_found", type: NoDataType.bookings,) :
+          ResponsiveHelper.isDesktop(context) ? WebBookingDetailsScreen(tabController: tabController) :
           DefaultTabController(
             length: 2, child: Column( mainAxisAlignment: MainAxisAlignment.start, children: [
               BookingTabBar(tabController: tabController),

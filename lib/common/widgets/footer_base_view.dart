@@ -5,6 +5,7 @@ class FooterBaseView extends StatelessWidget {
   final Widget child;
   final bool isScrollView;
   final ScrollController? scrollController;
+  final ScrollPhysics?physics;
   final bool isCenter;
   final bool? bottomPadding;
   const FooterBaseView({
@@ -13,7 +14,7 @@ class FooterBaseView extends StatelessWidget {
     this.isScrollView = true,
     this.isCenter = false,
     this.scrollController,
-    this.bottomPadding = true
+    this.bottomPadding = true, this.physics
   }) ;
 
   @override
@@ -29,7 +30,7 @@ class FooterBaseView extends StatelessWidget {
 
     return isScrollView ? SingleChildScrollView(
       controller: scrollController,
-      physics: const ClampingScrollPhysics(),
+      physics: physics ?? const ClampingScrollPhysics(),
       child: _widget(context),
     ) : _widget(context);
   }

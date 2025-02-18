@@ -160,11 +160,11 @@ class _BookingTrackScreenState extends State<BookingTrackScreen> {
     String phoneWithCountryCode = countryDialCode + phoneNumberValidString;
 
     if(bookingDetailsController.bookingIdController.text.isEmpty){
-      customSnackBar("please_enter_booking_id".tr);
+      customSnackBar("please_enter_booking_id".tr, type: ToasterMessageType.info);
     }else if(bookingDetailsController.phoneController.text.isEmpty) {
-      customSnackBar("please_enter_phone_number".tr);
+      customSnackBar("please_enter_phone_number".tr, type: ToasterMessageType.info);
     }else if(phoneNumberValidString == ""){
-      customSnackBar("phone_number_with_valid_country_code".tr);
+      customSnackBar("phone_number_with_valid_country_code".tr, type: ToasterMessageType.info);
     }else{
       bookingDetailsController.trackBookingDetails(bookingDetailsController.bookingIdController.text, phoneWithCountryCode, reload: true).then((value){
         if(bookingDetailsController.bookingDetailsContent != null){

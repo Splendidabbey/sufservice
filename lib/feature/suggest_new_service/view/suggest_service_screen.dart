@@ -91,11 +91,11 @@ class _SuggestServiceScreenState extends State<SuggestServiceScreen> {
                               suggestServiceController.updateShowInputField();
                             }else{
                               if(suggestServiceController.selectedCategoryName==""){
-                                customSnackBar('select_category'.tr);
+                                customSnackBar('select_category'.tr,  type: ToasterMessageType.info);
                               }else if(suggestServiceController.serviceNameController.text==""){
-                                customSnackBar('provide_your_desired_service_name'.tr);
+                                customSnackBar('provide_your_desired_service_name'.tr,  type: ToasterMessageType.info);
                               }else if(suggestServiceController.serviceDetailsController.text.isEmpty){
-                                customSnackBar("provide_some_details_about_your_service".tr);
+                                customSnackBar("provide_some_details_about_your_service".tr,  type: ToasterMessageType.info);
                               }else{
                                 suggestServiceController.submitNewServiceRequest();
                               }

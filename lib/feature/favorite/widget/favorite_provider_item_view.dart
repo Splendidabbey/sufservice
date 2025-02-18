@@ -11,16 +11,7 @@ class FavoriteProviderItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List<String> subcategory=[];
-    providerData.subscribedServices?.forEach((element) {
-      if(element.subCategory!=null){
-        subcategory.add(element.subCategory?.name??"");
-      }
-    });
 
-    String subcategories = subcategory.toString().replaceAll('[', '');
-    subcategories = subcategories.replaceAll(']', '');
-    subcategories = subcategories.replaceAll('&', ' and ');
 
     return Padding(padding: const EdgeInsets.fromLTRB( 15, 0, 15, 15),
       child: Slidable(
@@ -132,7 +123,7 @@ class FavoriteProviderItemView extends StatelessWidget {
                 ]),
               ),
               Positioned.fill(child: RippleButton(onTap: (){
-                Get.toNamed(RouteHelper.getProviderDetails(providerData.id!,subcategories));
+                Get.toNamed(RouteHelper.getProviderDetails(providerData.id!));
               })),
               Align(
                 alignment: favButtonAlignment(),

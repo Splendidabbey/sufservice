@@ -24,6 +24,7 @@ class LocationController extends GetxController implements GetxService {
   String _zoneID = '';
   bool _buttonDisabled = true;
   bool _changeAddress = true;
+  bool _isCameraMoving = false;
   GoogleMapController? _mapController;
   List<PredictionModel> _predictionList = [];
   PredictionModel? _firstPredictionModel;
@@ -52,6 +53,7 @@ class LocationController extends GetxController implements GetxService {
   bool get inZone => _inZone;
   String get zoneID => _zoneID;
   bool get buttonDisabled => _buttonDisabled;
+  bool get isCameraMoving => _isCameraMoving;
   GoogleMapController get mapController => _mapController!;
 
   ///address type like home , office , others
@@ -72,8 +74,15 @@ class LocationController extends GetxController implements GetxService {
     Position myPosition;
     try {
       await Geolocator.requestPermission();
-      Position newLocalData = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      if(defaultLatLng !=null){
+      Position newLocalData = await Geolocator.getCurrentPosition();
+      if(getUserAddress() != null){
+        myPosition =  Position(
+          latitude: double.tryParse(getUserAddress()!.latitude!) ?? 0,
+          longitude: double.tryParse(getUserAddress()!.longitude!) ?? 0,
+          timestamp: DateTime.now(), accuracy: 1, altitude: 1, heading: 1, speed: 1, speedAccuracy: 1,
+          altitudeAccuracy: 1, headingAccuracy: 1,
+        );
+      }else if(defaultLatLng !=null){
 
         myPosition =  Position(
           latitude:defaultLatLng.latitude,
@@ -287,15 +296,15 @@ class LocationController extends GetxController implements GetxService {
         Get.back();
         if(addressModel.zoneId == getUserAddress()?.zoneId){
           _selectedAddress = addressModel;
-          customSnackBar('new_address_added_successfully'.tr, isError: false);
+          customSnackBar('new_address_added_successfully'.tr, type : ToasterMessageType.success);
         }else{
-          customSnackBar('you_added_address_from_different_zone'.tr, isError: false);
+          customSnackBar('you_added_address_from_different_zone'.tr, type : ToasterMessageType.info);
         }
       }else{
         await saveUserAddress(AddressModel.fromJson(response.body["content"]));
       }
     } else {
-      customSnackBar(response.statusText == 'out_of_coverage'.tr ? 'service_not_available_in_this_area'.tr : response.statusText.toString().tr, isError: false);
+      customSnackBar(response.statusText == 'out_of_coverage'.tr ? 'service_not_available_in_this_area'.tr : response.statusText.toString().tr, type : ToasterMessageType.success);
     }
     _isLoading = false;
     update();
@@ -625,7 +634,7 @@ class LocationController extends GetxController implements GetxService {
     Response response = await locationRepo.changePostServiceAddress(postId,addressId);
 
     if(response.statusCode==200 && response.body['response_code']=="default_update_200"){
-      customSnackBar("service_schedule_updated_successfully".tr,isError: false);
+      customSnackBar("service_schedule_updated_successfully".tr,type : ToasterMessageType.success);
     }
   }
 
@@ -654,6 +663,11 @@ class LocationController extends GetxController implements GetxService {
       ));
     });
 
+    update();
+  }
+
+  updateCameraMovingStatus(bool status){
+    _isCameraMoving = status;
     update();
   }
 

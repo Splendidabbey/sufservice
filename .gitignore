@@ -33,6 +33,7 @@
 firebase.json
 .firebase
 get_changed_files.sh
+pubspec.lock
 
 # Web related
 

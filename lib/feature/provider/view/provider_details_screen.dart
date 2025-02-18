@@ -1,11 +1,11 @@
+import 'package:demandium/feature/provider/widgets/provider_details_shimmer.dart';
 import 'package:demandium/utils/core_export.dart';
 import 'package:get/get.dart';
 
 
 class ProviderDetailsScreen extends StatefulWidget {
   final String providerId;
-  final String subCategories;
-  const ProviderDetailsScreen({super.key,required this.providerId, required this.subCategories}) ;
+  const ProviderDetailsScreen({super.key,required this.providerId}) ;
 
 
   @override
@@ -34,6 +34,8 @@ class ProviderDetailsScreenState extends State<ProviderDetailsScreen> with Singl
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       endDrawer:ResponsiveHelper.isDesktop(context) ? const MenuDrawer():null,
       appBar: CustomAppBar(title: "provider_details".tr,showCart: true,),
@@ -41,6 +43,16 @@ class ProviderDetailsScreenState extends State<ProviderDetailsScreen> with Singl
         child: GetBuilder<ProviderBookingController>(
           builder: (providerBookingController){
             if(providerBookingController.providerDetailsContent!=null){
+
+              List<String> subcategory=[];
+              providerBookingController.providerDetailsContent?.subCategories?.forEach((element) {
+                subcategory.add(element.name ?? "");
+              });
+
+              String subcategories = subcategory.toString().replaceAll('[', '');
+              subcategories = subcategories.replaceAll(']', '');
+              subcategories = subcategories.replaceAll('&', ' and ');
+
 
               if(providerBookingController.categoryItemList.isEmpty){
                 return Column(
@@ -57,7 +69,7 @@ class ProviderDetailsScreenState extends State<ProviderDetailsScreen> with Singl
                       child: Center(child: Text('provider_is_currently_unavailable'.tr, style: ubuntuMedium,)),
                     ),
 
-                    SizedBox( width: Dimensions.webMaxWidth, child: ProviderDetailsTopCard(isAppbar: false,subcategories: widget.subCategories,providerId: widget.providerId,)),
+                    SizedBox( width: Dimensions.webMaxWidth, child: ProviderDetailsTopCard(isAppbar: false,subcategories: subcategories, providerId: widget.providerId,)),
                     SizedBox(
                       height: Get.height*0.6, width: Dimensions.webMaxWidth,
                       child: Center(child: Text('no_subscribed_subcategories_available'.tr),),
@@ -70,18 +82,18 @@ class ProviderDetailsScreenState extends State<ProviderDetailsScreen> with Singl
                     children: [
 
                       if(providerBookingController.providerDetailsContent?.provider?.serviceAvailability ==0)
-                      SizedBox(
-                        width: Dimensions.webMaxWidth,
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.error.withOpacity(0.1),
-                            border: Border(bottom: BorderSide(color: Theme.of(context).colorScheme.error))
+                        SizedBox(
+                          width: Dimensions.webMaxWidth,
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.error.withOpacity(0.1),
+                                border: Border(bottom: BorderSide(color: Theme.of(context).colorScheme.error))
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeLarge),
+                            child: Center(child: Text('provider_is_currently_unavailable'.tr, style: ubuntuMedium,)),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeLarge),
-                          child: Center(child: Text('provider_is_currently_unavailable'.tr, style: ubuntuMedium,)),
                         ),
-                      ),
 
                       SizedBox( height: Get.height * 0.9, width: Dimensions.webMaxWidth,
                         child: VerticalScrollableTabView(
@@ -99,7 +111,7 @@ class ProviderDetailsScreenState extends State<ProviderDetailsScreen> with Singl
                               pinned: true,
                               leading: const SizedBox(),
                               actions: const [ SizedBox()],
-                              flexibleSpace: ProviderDetailsTopCard(subcategories: widget.subCategories,providerId: widget.providerId,),
+                              flexibleSpace: ProviderDetailsTopCard(subcategories: subcategories ,providerId: widget.providerId,),
                               toolbarHeight: 140,
                               elevation: 0,
                               bottom: TabBar(
@@ -130,7 +142,7 @@ class ProviderDetailsScreenState extends State<ProviderDetailsScreen> with Singl
               }
 
             }else{
-              return const FooterBaseView(child: WebShadowWrap(child: Center(child: CircularProgressIndicator(),)));
+              return const FooterBaseView(child: ProviderDetailsShimmer());
             }
           },
         ),
