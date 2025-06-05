@@ -4,7 +4,7 @@ class AppConstants {
 
   static const String appName = 'Sufservice';
   static const String appVersion = '2.9';
-  static const String baseUrl = 'https://sufservice.ukachi.com';
+  static const String baseUrl = 'https://admin.sufservice.com';
   static const bool avoidMaintenanceMode = false;
   static const String categoryUrl = '/api/v1/customer/category?limit=20';
   static const String webLandingContents = '/api/v1/customer/landing/contents';
